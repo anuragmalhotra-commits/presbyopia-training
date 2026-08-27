@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InSight — Presbyopia Screening Training (PRE-TEST)</title>
+<style>
+  :root {
+    --bg: #F3ECE8;
+    --card: #FFFFFF;
+    --ink: #6B3828;
+    --ink-dark: #52291F;
+    --sub: #7B625A;
+    --primary: #713E2C;
+    --primaryDark: #5A3023;
+    --accent: #B98268;
+    --accentSoft: #E9DCD6;
+    --correct: #4F755F;
+    --correctBg: #E7F0EB;
+    --wrong: #A34E3D;
+    --wrongBg: #F7E7E3;
+    --border: #E3D7D1;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Oriya',
+      system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink-dark);
+    padding: 0 16px 32px;
+  }
+
+  .shell { max-width: 720px; margin: 0 auto; }
+
+  .brand-bar {
+    background: var(--primary);
+    color: #fff;
+    margin: 0 -16px 22px;
+    padding: 16px max(20px, calc((100vw - 720px) / 2 + 20px));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 72px;
+  }
+
+  .brand-name {
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1;
+    margin-right: auto;      /* pushes the badge to the far edge */
+  }
+
+  .brand-slash { opacity: .8; font-weight: 500; margin: 0 1px; }
+
+  .brand-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 32px;      /* guaranteed gap even on the narrowest screens */
+  }
+
+  .test-type-badge {
+    background: #F2E6E0;
+    color: var(--primary);
+    border: 1px solid rgba(255,255,255,.25);
+    padding: 8px 13px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 4px 2px 22px;
+    gap: 12px;
+  }
+
+  .header-left { display: block; }
+  .logo-mark { display: none; }
+
+  .header-title {
+    font-weight: 850;
+    font-size: 30px;
+    letter-spacing: -0.7px;
+    line-height: 1.1;
+    color: var(--primary);
+  }
+
+  .header-sub { font-size: 14px; color: var(--sub); margin-top: 7px; }
+  .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+  .state-chip {
+    font-size: 11px;
+    font-weight: 800;
+    background: var(--accentSoft);
+    color: var(--primary);
+    padding: 7px 10px;
+    border-radius: 4px;
+    letter-spacing: .5px;
+    text-align: right;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 2px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(82, 41, 31, .06);
+    border: 1px solid rgba(113, 62, 44, .07);
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+
+  h2.h2, .h2 {
+    font-size: 25px;
+    margin: 0 0 18px;
+    line-height: 1.3;
+    letter-spacing: -.25px;
+    color: var(--primary);
+  }
+
+  .lang-row { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+
+  .lang-btn {
+    padding: 7px 14px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    background: #fff;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+    color: var(--sub);
+    font-family: inherit;
+  }
+
+  .lang-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .lang-btn:hover, .choice-btn:hover { border-color: var(--accent); background: #FCF9F7; }
+  .lang-btn.active:hover { background: var(--primaryDark); }
+
+  .field { margin-bottom: 18px; }
+
+  .label {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 7px;
+    color: var(--primary);
+    letter-spacing: .2px;
+  }
+
+  .input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    background: #fff;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--ink-dark);
+    outline: none;
+  }
+
+  .input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(185,130,104,.12); }
+
+  select.input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23713E2C' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px;
+    cursor: pointer;
+  }
+
+  select.input:disabled { background-color: #FAF6F4; color: var(--sub); cursor: not-allowed; }
+
+  .mt8 { margin-top: 8px; }
+
+  .form-error {
+    background: var(--wrongBg);
+    border-left: 4px solid var(--wrong);
+    color: var(--wrong);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 12px;
+    margin: 0 0 14px;
+  }
+
+  .opt-col { display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
+
+  .choice-btn {
+    text-align: left;
+    padding: 15px 17px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    background: #fff;
+    font-size: 15px;
+    line-height: 1.45;
+    cursor: pointer;
+    color: var(--ink-dark);
+    width: 100%;
+    font-family: inherit;
+    transition: .15s ease;
+  }
+
+  .choice-btn.active {
+    border-color: var(--primary);
+    background: #F3EAE6;
+    font-weight: 700;
+    box-shadow: inset 4px 0 0 var(--primary);
+  }
+
+  .primary-btn {
+    width: 100%;
+    padding: 15px 18px;
+    border-radius: 2px;
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 8px;
+    font-family: inherit;
+    transition: .15s ease;
+  }
+
+  .primary-btn:hover { background: var(--primaryDark); }
+  .primary-btn:disabled { opacity: 0.5; cursor: default; }
+
+  .ghost-btn {
+    width: 100%;
+    padding: 13px 18px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: inherit;
+  }
+
+  .ghost-btn:hover { border-color: var(--accent); background: #FCF9F7; }
+
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  .hint { font-size: 12px; color: var(--sub); margin: -8px 0 12px; }
+
+  .field-hint { font-size: 12px; color: var(--sub); margin: 6px 0 0; }
+
+  .mode-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--accentSoft);
+    border-left: 5px solid var(--primary);
+    padding: 13px 15px;
+    margin: 0 0 22px;
+  }
+
+  .mode-banner strong {
+    color: var(--primary);
+    font-size: 13px;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+  }
+
+  .mode-banner span { color: var(--sub); font-size: 12px; }
+
+  @media (max-width: 560px) {
+    body { padding: 0 10px 24px; }
+    .brand-bar { margin: 0 -10px 18px; padding: 14px 16px; min-height: 64px; gap: 14px; }
+    .brand-name { font-size: 20px; }
+    .brand-right { padding-left: 0; }
+    .test-type-badge { padding: 7px 9px; font-size: 9px; }
+    .dot { width: 28px; height: 28px; font-size: 11px; }
+    .header { padding: 3px 1px 18px; }
+    .header-title { font-size: 25px; }
+    .card { padding: 22px 18px; }
+    h2.h2, .h2 { font-size: 22px; }
+    .q-text { font-size: 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="brand-bar">
+    <div class="brand-name">THE<span class="brand-slash">/</span>NUDGE</div>
+    <div class="brand-right">
+      <div class="test-type-badge" id="topBadge">PRE-TEST</div>
+    </div>
+  </div>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="header-title" id="headerTitle">Presbyopia Pre-Test</div>
+      <div class="header-sub" id="headerSub">Knowledge assessment before training</div>
+    </div>
+    <div class="header-right" id="headerRight"></div>
+  </div>
+
+  <div class="mode-banner">
+    <div>
+      <strong id="bannerBadge">PRE-TEST</strong>
+      <span id="bannerSub">Knowledge assessment before training</span>
+    </div>
+  </div>
+
+  <div id="app"></div>
+
+  <p class="build-stamp">v2026-08-26 08:09</p>
+</div>
+
+<script>
+/* ======================================================================
+   PRESBYOPIA SCREENING — PRE-TEST
+   Everything you are likely to want to edit lives in sections 1–3 below:
+   1. Geography (states, districts, blocks)
+   2. Interface text
+   3. Questions
+   ====================================================================== */
+
+const QUIZ_TYPE = "PRE";
+
+/* Google Apps Script Web App — same deployment for both tests.
+   Rows are distinguished by the quizType field in the payload. */
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbwxVogtC5zXi_JSivPBxTne6M65znZ6SXHVZ0Va1XTqVtoE56tRzRJLLIidRYNGKNA4pw/exec?type=pre";
+
+/* ======================================================================
+   1. GEOGRAPHY  —  State › District › Block
+   ----------------------------------------------------------------------
+   HOW TO EDIT:
+   • DISTRICTS[stateCode]  = ["District A", "District B", ...]
+   • BLOCKS["stateCode|District Name"] = ["Block 1", "Block 2", ...]
+   If a district has no block list here, the Block field automatically
+   becomes a free-text box, so nothing ever gets stuck in the field.
+   ====================================================================== */
+const STATES = [
+  { code: "MH", label: { en: "Maharashtra", hi: "महाराष्ट्र", mr: "महाराष्ट्र", or: "ମହାରାଷ୍ଟ୍ର", kha: "Maharashtra" }, lang: "mr" },
+  { code: "OD", label: { en: "Odisha", hi: "ओडिशा", mr: "ओडिशा", or: "ଓଡ଼ିଶା", kha: "Odisha" }, lang: "or" },
+  { code: "ML", label: { en: "Meghalaya", hi: "मेघालय", mr: "मेघालय", or: "ମେଘାଳୟ", kha: "Meghalaya" }, lang: "kha" },
+  { code: "HR", label: { en: "Haryana", hi: "हरियाणा", mr: "हरियाणा", or: "ହରିୟାଣା", kha: "Haryana" }, lang: "hi" },
+];
+
+/* Every district and block carries a label in each language.
+   `en` is the canonical value written to the Google Sheet, so the data
+   stays consistent no matter which language the form was filled in.
+   A missing translation falls back to `en`.                            */
+
+const DISTRICTS = {
+  MH: [
+    { en: "Wardha", hi: "वर्धा", mr: "वर्धा", or: "ୱାର୍ଦ୍ଧା", kha: "Wardha" },
+  ],
+  HR: [
+    { en: "Jhajjar", hi: "झज्जर", mr: "झज्जर", or: "ଝଜ୍ଜର", kha: "Jhajjar" },
+  ],
+  OD: [
+    { en: "Angul", or: "ଅନୁଗୁଳ", hi: "अनुगुल", mr: "अनुगुल" },
+    { en: "Balangir", or: "ବଲାଙ୍ଗୀର", hi: "बलांगीर", mr: "बलांगीर" },
+    { en: "Balasore", or: "ବାଲେଶ୍ୱର", hi: "बालेश्वर", mr: "बालेश्वर" },
+    { en: "Bargarh", or: "ବରଗଡ଼", hi: "बरगढ़", mr: "बरगड" },
+    { en: "Bhadrak", or: "ଭଦ୍ରକ", hi: "भद्रक", mr: "भद्रक" },
+    { en: "Boudh", or: "ବୌଦ୍ଧ", hi: "बौद्ध", mr: "बौद्ध" },
+    { en: "Cuttack", or: "କଟକ", hi: "कटक", mr: "कटक" },
+    { en: "Deogarh", or: "ଦେବଗଡ଼", hi: "देवगढ़", mr: "देवगड" },
+    { en: "Dhenkanal", or: "ଢେଙ୍କାନାଳ", hi: "ढेंकानाल", mr: "ढेंकानाल" },
+    { en: "Gajapati", or: "ଗଜପତି", hi: "गजपति", mr: "गजपती" },
+    { en: "Ganjam", or: "ଗଞ୍ଜାମ", hi: "गंजाम", mr: "गंजाम" },
+    { en: "Jagatsinghpur", or: "ଜଗତସିଂହପୁର", hi: "जगतसिंहपुर", mr: "जगतसिंहपूर" },
+    { en: "Jajpur", or: "ଯାଜପୁର", hi: "जाजपुर", mr: "जाजपूर" },
+    { en: "Jharsuguda", or: "ଝାରସୁଗୁଡ଼ା", hi: "झारसुगुड़ा", mr: "झारसुगुडा" },
+    { en: "Kalahandi", or: "କଳାହାଣ୍ଡି", hi: "कालाहांडी", mr: "कालाहांडी" },
+    { en: "Kandhamal", or: "କନ୍ଧମାଳ", hi: "कंधमाल", mr: "कंधमाल" },
+    { en: "Kendrapara", or: "କେନ୍ଦ୍ରାପଡ଼ା", hi: "केंद्रापड़ा", mr: "केंद्रापडा" },
+    { en: "Kendujhar", or: "କେନ୍ଦୁଝର", hi: "केंदुझर", mr: "केंदुझर" },
+    { en: "Khordha", or: "ଖୋର୍ଦ୍ଧା", hi: "खोर्धा", mr: "खोर्धा" },
+    { en: "Koraput", or: "କୋରାପୁଟ", hi: "कोरापुट", mr: "कोरापूट" },
+    { en: "Malkangiri", or: "ମାଲକାନଗିରି", hi: "मलकानगिरी", mr: "मलकानगिरी" },
+    { en: "Mayurbhanj", or: "ମୟୂରଭଞ୍ଜ", hi: "मयूरभंज", mr: "मयूरभंज" },
+    { en: "Nabarangpur", or: "ନବରଙ୍ଗପୁର", hi: "नबरंगपुर", mr: "नबरंगपूर" },
+    { en: "Nayagarh", or: "ନୟାଗଡ଼", hi: "नयागढ़", mr: "नयागड" },
+    { en: "Nuapada", or: "ନୂଆପଡ଼ା", hi: "नुआपड़ा", mr: "नुआपडा" },
+    { en: "Puri", or: "ପୁରୀ", hi: "पुरी", mr: "पुरी" },
+    { en: "Rayagada", or: "ରାୟଗଡ଼ା", hi: "रायगड़ा", mr: "रायगडा" },
+    { en: "Sambalpur", or: "ସମ୍ବଲପୁର", hi: "संबलपुर", mr: "संबलपूर" },
+    { en: "Subarnapur", or: "ସୁବର୍ଣ୍ଣପୁର", hi: "सुबर्णपुर", mr: "सुबर्णपूर" },
+    { en: "Sundargarh", or: "ସୁନ୍ଦରଗଡ଼", hi: "सुंदरगढ़", mr: "सुंदरगड" },
+  ],
+  ML: [
+    { en: "East Khasi Hills", hi: "पूर्वी खासी हिल्स", mr: "पूर्व खासी हिल्स", or: "ପୂର୍ବ ଖାସୀ ହିଲ୍ସ" },
+    { en: "West Khasi Hills", hi: "पश्चिमी खासी हिल्स", mr: "पश्चिम खासी हिल्स", or: "ପଶ୍ଚିମ ଖାସୀ ହିଲ୍ସ" },
+    { en: "South West Khasi Hills", hi: "दक्षिण-पश्चिमी खासी हिल्स", mr: "दक्षिण-पश्चिम खासी हिल्स", or: "ଦକ୍ଷିଣ-ପଶ୍ଚିମ ଖାସୀ ହିଲ୍ସ" },
+    { en: "Eastern West Khasi Hills", hi: "पूर्वी-पश्चिमी खासी हिल्स", mr: "पूर्व-पश्चिम खासी हिल्स", or: "ପୂର୍ବ-ପଶ୍ଚିମ ଖାସୀ ହିଲ୍ସ" },
+    { en: "Ri-Bhoi", hi: "री-भोई", mr: "री-भोई", or: "ରି-ଭୋଇ" },
+    { en: "East Jaintia Hills", hi: "पूर्वी जयंतिया हिल्स", mr: "पूर्व जयंतिया हिल्स", or: "ପୂର୍ବ ଜୟନ୍ତିଆ ହିଲ୍ସ" },
+    { en: "West Jaintia Hills", hi: "पश्चिमी जयंतिया हिल्स", mr: "पश्चिम जयंतिया हिल्स", or: "ପଶ୍ଚିମ ଜୟନ୍ତିଆ ହିଲ୍ସ" },
+    { en: "East Garo Hills", hi: "पूर्वी गारो हिल्स", mr: "पूर्व गारो हिल्स", or: "ପୂର୍ବ ଗାରୋ ହିଲ୍ସ" },
+    { en: "West Garo Hills", hi: "पश्चिमी गारो हिल्स", mr: "पश्चिम गारो हिल्स", or: "ପଶ୍ଚିମ ଗାରୋ ହିଲ୍ସ" },
+    { en: "North Garo Hills", hi: "उत्तरी गारो हिल्स", mr: "उत्तर गारो हिल्स", or: "ଉତ୍ତର ଗାରୋ ହିଲ୍ସ" },
+    { en: "South Garo Hills", hi: "दक्षिणी गारो हिल्स", mr: "दक्षिण गारो हिल्स", or: "ଦକ୍ଷିଣ ଗାରୋ ହିଲ୍ସ" },
+    { en: "South West Garo Hills", hi: "दक्षिण-पश्चिमी गारो हिल्स", mr: "दक्षिण-पश्चिम गारो हिल्स", or: "ଦକ୍ଷିଣ-ପଶ୍ଚିମ ଗାରୋ ହିଲ୍ସ" },
+  ],
+};
+
+/* Block lists. Key = "STATECODE|<English district name>".
+   A district with no entry here shows a text box instead.              */
+const BLOCKS = {
+  "MH|Wardha": [
+    { en: "Arvi", hi: "आर्वी", mr: "आर्वी", or: "ଆର୍ଭି", kha: "Arvi" },
+    { en: "Ashti", hi: "आष्टी", mr: "आष्टी", or: "ଆଷ୍ଟି", kha: "Ashti" },
+    { en: "Deoli", hi: "देवली", mr: "देवळी", or: "ଦେଓଲି", kha: "Deoli" },
+    { en: "Karanja", hi: "कारंजा", mr: "कारंजा", or: "କରଞ୍ଜା", kha: "Karanja" },
+    { en: "Selu", hi: "सेलू", mr: "सेलू", or: "ସେଲୁ", kha: "Selu" },
+  ],
+  "HR|Jhajjar": [
+    { en: "Badli", hi: "बादली", mr: "बादली", or: "ବାଦଲି", kha: "Badli" },
+    { en: "Bahardurgarh", hi: "बहादुरगढ़", mr: "बहादुरगड", or: "ବାହାଦୁରଗଡ଼", kha: "Bahardurgarh" },
+    { en: "Dighal", hi: "दीघल", mr: "दीघल", or: "ଦୀଘଲ", kha: "Dighal" },
+    { en: "Jhajjar", hi: "झज्जर", mr: "झज्जर", or: "ଝଜ୍ଜର", kha: "Jhajjar" },
+    { en: "Machhrauli", hi: "माछरौली", mr: "माछरौली", or: "ମାଛରୌଲି", kha: "Machhrauli" },
+    { en: "Matanhail", hi: "मातनहेल", mr: "मातनहेल", or: "ମାତନହେଲ", kha: "Matanhail" },
+    { en: "Salhawas", hi: "साल्हावास", mr: "साल्हावास", or: "ସାଲ୍ହାୱାସ", kha: "Salhawas" },
+  ],
+};
+
+const LANGS = [
+  { code: "hi", label: "हिंदी" },
+  { code: "en", label: "English" },
+  { code: "mr", label: "मराठी" },
+  { code: "or", label: "ଓଡ଼ିଆ" },
+  { code: "kha", label: "Khasi" },
+];
+
+/* ======================================================================
+   2. INTERFACE TEXT
+   ====================================================================== */
+const UI = {
+  headerTitle: {
+    hi: "प्रेसबायोपिया प्री-टेस्ट", en: "Presbyopia Pre-Test",
+    mr: "प्रेस्बायोपिया प्री-टेस्ट", or: "ପ୍ରେସବାୟୋପିଆ ପ୍ରି-ଟେଷ୍ଟ",
+    kha: "Presbyopia Pre-Test",
+  },
+  headerTitlePost: {
+    hi: "प्रेसबायोपिया पोस्ट-टेस्ट", en: "Presbyopia Post-Test",
+    mr: "प्रेस्बायोपिया पोस्ट-टेस्ट", or: "ପ୍ରେସବାୟୋପିଆ ପୋଷ୍ଟ-ଟେଷ୍ଟ",
+    kha: "Presbyopia Post-Test",
+  },
+  headerSub: {
+    hi: "प्रशिक्षण से पहले जानकारी की जाँच",
+    en: "Knowledge assessment before training",
+    mr: "प्रशिक्षणापूर्वी ज्ञानाची चाचणी",
+    or: "ତାଲିମ ପୂର୍ବରୁ ଜ୍ଞାନର ମୂଲ୍ୟାଙ୍କନ",
+    kha: "Jingïatiar jingtip mynba ka jinghikai",
+  },
+  headerSubPost: {
+    hi: "प्रशिक्षण के बाद जानकारी की जाँच",
+    en: "Knowledge assessment after training",
+    mr: "प्रशिक्षणानंतर ज्ञानाची चाचणी",
+    or: "ତାଲିମ ପରେ ଜ୍ଞାନର ମୂଲ୍ୟାଙ୍କନ",
+    kha: "Jingïatiar jingtip hadien ka jinghikai",
+  },
+  badge: {
+    hi: "प्री-टेस्ट", en: "PRE-TEST", mr: "प्री-टेस्ट",
+    or: "ପ୍ରି-ଟେଷ୍ଟ", kha: "PRE-TEST",
+  },
+  badgePost: {
+    hi: "पोस्ट-टेस्ट", en: "POST-TEST", mr: "पोस्ट-टेस्ट",
+    or: "ପୋଷ୍ଟ-ଟେଷ୍ଟ", kha: "POST-TEST",
+  },
+  title: {
+    hi: "प्रेसबायोपिया स्क्रीनिंग प्रशिक्षण — प्रश्नावली",
+    en: "Presbyopia Screening Training — Test",
+    mr: "प्रेस्बायोपिया स्क्रीनिंग प्रशिक्षण — चाचणी",
+    or: "ପ୍ରେସବାୟୋପିଆ ସ୍କ୍ରିନିଂ ତାଲିମ — ପ୍ରଶ୍ନାବଳୀ",
+    kha: "Jinghikai Presbyopia Screening — Kylli bad Jubab",
+  },
+  selectPlace: {
+    hi: "अपना क्षेत्र चुनें", en: "Select your location", mr: "तुमचा भाग निवडा",
+    or: "ଆପଣଙ୍କ ଅଞ୍ଚଳ ବାଛନ୍ତୁ", kha: "Jied ïa ka jaka jong phi",
+  },
+  aboutYou: {
+    hi: "आपकी जानकारी", en: "About you", mr: "तुमची माहिती",
+    or: "ଆପଣଙ୍କ ବିବରଣୀ", kha: "Ki jingtip jong phi",
+  },
+  stateLbl: { hi: "राज्य", en: "State", mr: "राज्य", or: "ରାଜ୍ୟ", kha: "Jylla" },
+  districtLbl: { hi: "ज़िला", en: "District", mr: "जिल्हा", or: "ଜିଲ୍ଲା", kha: "District" },
+  blockLbl: { hi: "ब्लॉक", en: "Block", mr: "तालुका / ब्लॉक", or: "ବ୍ଲକ୍", kha: "Block" },
+  choose: { hi: "— चुनें —", en: "— Select —", mr: "— निवडा —", or: "— ବାଛନ୍ତୁ —", kha: "— Jied —" },
+  chooseStateFirst: {
+    hi: "पहले राज्य चुनें", en: "Select a state first", mr: "आधी राज्य निवडा",
+    or: "ପ୍ରଥମେ ରାଜ୍ୟ ବାଛନ୍ତୁ", kha: "Jied ïa ka jylla mynshwa",
+  },
+  otherType: {
+    hi: "अन्य — यहाँ लिखें", en: "Other — type it in", mr: "इतर — इथे लिहा",
+    or: "ଅନ୍ୟ — ଏଠାରେ ଲେଖନ୍ତୁ", kha: "Kiwei — thoh hangne",
+  },
+  blockHint: {
+    hi: "अपने ब्लॉक का नाम लिखें", en: "Type your block name", mr: "तुमच्या तालुक्याचे नाव लिहा",
+    or: "ଆପଣଙ୍କ ବ୍ଲକ୍‌ର ନାମ ଲେଖନ୍ତୁ", kha: "Thoh ïa ka kyrteng block jong phi",
+  },
+  continue: {
+    hi: "आगे बढ़ें", en: "Continue", mr: "पुढे जा",
+    or: "ଆଗକୁ ବଢ଼ନ୍ତୁ", kha: "Leit shakhmat",
+  },
+  back: { hi: "वापस", en: "Back", mr: "मागे", or: "ପଛକୁ", kha: "Phai sha lyngba" },
+  fillAll: {
+    hi: "कृपया राज्य, ज़िला और ब्लॉक तीनों भरें",
+    en: "Please fill state, district and block",
+    mr: "कृपया राज्य, जिल्हा आणि तालुका तिन्ही भरा",
+    or: "ଦୟାକରି ରାଜ୍ୟ, ଜିଲ୍ଲା ଓ ବ୍ଲକ୍ ତିନୋଟି ଯାକ ପୂରଣ କରନ୍ତୁ",
+    kha: "Sngewbha dap baroh: jylla, district bad block",
+  },
+  needName: {
+    hi: "कृपया नाम, मोबाइल नंबर और शिक्षा भरें",
+    en: "Please fill name, mobile number and education",
+    mr: "कृपया नाव, मोबाइल नंबर आणि शिक्षण भरा",
+    or: "ଦୟାକରି ନାମ, ମୋବାଇଲ୍ ନମ୍ବର ଓ ଶିକ୍ଷା ପୂରଣ କରନ୍ତୁ",
+    kha: "Sngewbha thoh ïa ka kyrteng, nombor mobile bad ka jingpule",
+  },
+  name: { hi: "नाम", en: "Name", mr: "नाव", or: "ନାମ", kha: "Kyrteng" },
+  phone: { hi: "मोबाइल नंबर", en: "Mobile number", mr: "मोबाइल नंबर", or: "ମୋବାଇଲ୍ ନମ୍ବର", kha: "Nombor mobile" },
+  phoneHint: {
+    hi: "10 अंक का वही नंबर जो पोस्ट-टेस्ट में भी डालेंगे",
+    en: "10 digits — use the same number for the post-test",
+    mr: "१० अंकी — पोस्ट-टेस्टलाही हाच नंबर वापरा",
+    or: "୧୦ ଅଙ୍କ — ପୋଷ୍ଟ-ଟେଷ୍ଟରେ ମଧ୍ୟ ଏହି ନମ୍ବର ବ୍ୟବହାର କରନ୍ତୁ",
+    kha: "10 nombor — pyndonkam ïa kane ka nombor ruh ha ka post-test",
+  },
+  badPhone: {
+    hi: "10 अंक का मोबाइल नंबर डालें (6, 7, 8 या 9 से शुरू)",
+    en: "Enter a 10-digit mobile number starting with 6, 7, 8 or 9",
+    mr: "१० अंकी मोबाइल नंबर टाका (६, ७, ८ किंवा ९ ने सुरू होणारा)",
+    or: "୧୦ ଅଙ୍କର ମୋବାଇଲ୍ ନମ୍ବର ଦିଅନ୍ତୁ (୬, ୭, ୮ ବା ୯ରୁ ଆରମ୍ଭ)",
+    kha: "Thoh ïa ka nombor mobile 10 tylli, ba sdang da 6, 7, 8 ne 9",
+  },
+  education: { hi: "शिक्षा", en: "Education", mr: "शिक्षण", or: "ଶିକ୍ଷା", kha: "Jingpule" },
+  eduOpts: {
+    hi: ["8वीं या उससे कम", "10वीं पास", "12वीं पास", "स्नातक या उससे ऊपर"],
+    en: ["Class 8 or below", "Class 10 pass", "Class 12 pass", "Graduate or above"],
+    mr: ["८वी किंवा त्याहून कमी", "१०वी उत्तीर्ण", "१२वी उत्तीर्ण", "पदवीधर किंवा त्याहून जास्त"],
+    or: ["ଅଷ୍ଟମ ବା ତା'ଠାରୁ କମ୍", "ଦଶମ ପାସ୍", "ଦ୍ୱାଦଶ ପାସ୍", "ସ୍ନାତକ ବା ତା'ଠାରୁ ଅଧିକ"],
+    kha: ["Class 8 ne harum", "Class 10 pass", "Class 12 pass", "Graduate ne halor"],
+  },
+  start: { hi: "परीक्षा शुरू करें", en: "Start test", mr: "चाचणी सुरू करा", or: "ପରୀକ୍ଷା ଆରମ୍ଭ କରନ୍ତୁ", kha: "Sdang ïa ka test" },
+  next: { hi: "अगला", en: "Next", mr: "पुढे", or: "ପରବର୍ତ୍ତୀ", kha: "Sha khmat" },
+  prev: { hi: "पिछला", en: "Previous", mr: "मागील", or: "ପୂର୍ବବର୍ତ୍ତୀ", kha: "Ba mynshwa" },
+  unanswered: {
+    hi: "इन प्रश्नों का जवाब बाकी है:",
+    en: "These questions are still unanswered:",
+    mr: "या प्रश्नांची उत्तरे बाकी आहेत:",
+    or: "ଏହି ପ୍ରଶ୍ନଗୁଡ଼ିକର ଉତ୍ତର ବାକି ଅଛି:",
+    kha: "Kine ki kylli kim don jubab shuh:",
+  },
+  finish: { hi: "जमा करें", en: "Submit", mr: "सबमिट करा", or: "ଦାଖଲ କରନ୍ତୁ", kha: "Pyndep" },
+  correct: { hi: "सही ✓", en: "Correct ✓", mr: "बरोबर ✓", or: "ଠିକ୍ ✓", kha: "Dei ✓" },
+  wrong: { hi: "गलत", en: "Incorrect", mr: "चूक", or: "ଭୁଲ୍", kha: "Ym dei" },
+  correctAnsIs: { hi: "सही जवाब:", en: "Correct answer:", mr: "बरोबर उत्तर:", or: "ଠିକ୍ ଉତ୍ତର:", kha: "Ka jubab ba dei:" },
+  question: { hi: "प्रश्न", en: "Question", mr: "प्रश्न", or: "ପ୍ରଶ୍ନ", kha: "Kylli" },
+  yourScore: { hi: "आपका स्कोर", en: "Your score", mr: "तुमचे गुण", or: "ଆପଣଙ୍କ ସ୍କୋର", kha: "Ka score jong phi" },
+  reviewTitle: { hi: "उत्तरों की समीक्षा", en: "Answer review", mr: "उत्तरांचा आढावा", or: "ଉତ୍ତର ସମୀକ୍ଷା", kha: "Peit biang ïa ki jubab" },
+  newAttempt: { hi: "नया प्रयास शुरू करें", en: "Start new attempt", mr: "नवीन प्रयत्न सुरू करा", or: "ନୂଆ ପ୍ରୟାସ ଆରମ୍ଭ କରନ୍ତୁ", kha: "Sdang test thymmai" },
+  multiHint: {
+    hi: "(एक से ज़्यादा जवाब चुन सकते हैं)", en: "(select all that apply)",
+    mr: "(लागू होणारे सर्व पर्याय निवडा)", or: "(ଯେତେ ପ୍ରଯୁଜ୍ୟ ସବୁ ବାଛନ୍ତୁ)",
+    kha: "(jied baroh kiba dei)",
+  },
+  saving: { hi: "सहेजा जा रहा है…", en: "Saving…", mr: "जतन होत आहे…", or: "ସେଭ୍ ହେଉଛି…", kha: "Dang buh…" },
+  saved: {
+    hi: "आपका जवाब दर्ज हो गया है", en: "Your response has been recorded",
+    mr: "तुमचे उत्तर नोंदवले गेले आहे", or: "ଆପଣଙ୍କ ଉତ୍ତର ରେକର୍ଡ ହୋଇଛି",
+    kha: "La buh bha ïa ka jubab jong phi",
+  },
+  saveError: {
+    hi: "जवाब सहेजा नहीं जा सका। इंटरनेट जाँचकर दोबारा भेजें।",
+    en: "Could not save. Check the connection and send again.",
+    mr: "उत्तर जतन झाले नाही. इंटरनेट तपासून पुन्हा पाठवा.",
+    or: "ଉତ୍ତର ସେଭ୍ ହେଲା ନାହିଁ। ଇଣ୍ଟରନେଟ୍ ଯାଞ୍ଚ କରି ପୁଣି ପଠାନ୍ତୁ।",
+    kha: "Ym lah buh. Peit ïa ka internet bad phah biang.",
+  },
+  retrySave: { hi: "दोबारा भेजें", en: "Send again", mr: "पुन्हा पाठवा", or: "ପୁଣି ପଠାନ୍ତୁ", kha: "Phah biang" },
+  thankTitle: { hi: "धन्यवाद!", en: "Thank you!", mr: "धन्यवाद!", or: "ଧନ୍ୟବାଦ!", kha: "Khublei!" },
+  thankBody: {
+    hi: "आपका प्री-टेस्ट जमा हो गया है। अब प्रशिक्षण के लिए आगे बढ़ें।",
+    en: "Your pre-test has been submitted. Please go ahead with the training.",
+    mr: "तुमची प्री-टेस्ट सबमिट झाली आहे. आता प्रशिक्षणासाठी पुढे जा.",
+    or: "ଆପଣଙ୍କ ପ୍ରି-ଟେଷ୍ଟ ଦାଖଲ ହୋଇଯାଇଛି। ଏବେ ତାଲିମ ପାଇଁ ଆଗକୁ ବଢ଼ନ୍ତୁ।",
+    kha: "La dep phah ïa ka pre-test jong phi. Nangta leit sha ka jinghikai.",
+  },
+};
+
+/* ======================================================================
+   3. QUESTIONS
+   ====================================================================== */
+const QUESTIONS = [
+  {
+    id: "q1", type: "single",
+    text: {
+      hi: "1. प्रेसबायोपिया क्या है?",
+      en: "1. What is presbyopia?",
+      mr: "१. प्रेस्बायोपिया म्हणजे काय?",
+      or: "୧. ପ୍ରେସବାୟୋପିଆ କ'ଣ?",
+      kha: "1. Kaei ka presbyopia?",
+    },
+    options: {
+      hi: ["A) दूर की चीज़ें देखने में दिक्कत", "B) उम्र बढ़ने से पास की चीज़ें देखने में दिक्कत", "C) मोतियाबिंद से होने वाली दिक्कत"],
+      en: ["A) Difficulty seeing distant objects", "B) Difficulty seeing near objects because of ageing", "C) Difficulty caused by cataract"],
+      mr: ["A) दूरच्या वस्तू पाहताना अडचण", "B) वय वाढल्यामुळे जवळच्या वस्तू पाहताना अडचण", "C) मोतीबिंदूमुळे होणारी अडचण"],
+      or: ["A) ଦୂରର ଜିନିଷ ଦେଖିବାରେ ଅସୁବିଧା", "B) ବୟସ ବଢ଼ିବା ଯୋଗୁଁ ପାଖର ଜିନିଷ ଦେଖିବାରେ ଅସୁବିଧା", "C) ଛାନି (ମୋତିଆବିନ୍ଦୁ) ଯୋଗୁଁ ହେଉଥିବା ଅସୁବିଧା"],
+      kha: ["A) Ka jingeh ban peit ïa ki jingthaw ba jngai", "B) Ka jingeh ban peit ïa ki jingthaw ba jan namar ka jingsan snem", "C) Ka jingeh naduh ka cataract"],
+    },
+    correct: [1],
+  },
+  {
+    id: "q2", type: "single",
+    text: {
+      hi: "2. प्रेसबायोपिया आमतौर पर किस उम्र के बाद शुरू होता है?",
+      en: "2. Presbyopia usually begins after which age?",
+      mr: "२. प्रेस्बायोपिया साधारणपणे कोणत्या वयानंतर सुरू होतो?",
+      or: "୨. ପ୍ରେସବାୟୋପିଆ ସାଧାରଣତଃ କେଉଁ ବୟସ ପରେ ଆରମ୍ଭ ହୁଏ?",
+      kha: "2. Ka presbyopia ka sdang hadien katno ki snem?",
+    },
+    options: {
+      hi: ["(a) 20 साल", "(b) 35 साल", "(c) 40 साल", "(d) 60 साल"],
+      en: ["(a) 20 years", "(b) 35 years", "(c) 40 years", "(d) 60 years"],
+      mr: ["(a) २० वर्षे", "(b) ३५ वर्षे", "(c) ४० वर्षे", "(d) ६० वर्षे"],
+      or: ["(a) ୨୦ ବର୍ଷ", "(b) ୩୫ ବର୍ଷ", "(c) ୪୦ ବର୍ଷ", "(d) ୬୦ ବର୍ଷ"],
+      kha: ["(a) 20 snem", "(b) 35 snem", "(c) 40 snem", "(d) 60 snem"],
+    },
+    // NOTE FOR THE TRAINING TEAM: this is currently marked as 35 years.
+    // Most presbyopia curricula teach 40. Change to [2] if 40 is correct.
+    correct: [1],
+  },
+  {
+    id: "q3", type: "single",
+    text: {
+      hi: "3. पढ़ने के लिए आँख से किताब की सामान्य दूरी कितनी होती है?",
+      en: "3. What is the normal near working distance for reading?",
+      mr: "३. वाचताना डोळ्यापासून पुस्तकाचे सामान्य अंतर किती असते?",
+      or: "୩. ପଢ଼ିବା ସମୟରେ ଆଖିରୁ ବହିର ସାଧାରଣ ଦୂରତା କେତେ ହୋଇଥାଏ?",
+      kha: "3. Katno ka jingjngai na ka khmat sha ka kot haba pule?",
+    },
+    options: {
+      hi: ["(a) 20 सेमी", "(b) 40 सेमी", "(c) 60 सेमी", "(d) 100 सेमी"],
+      en: ["(a) 20 cm", "(b) 40 cm", "(c) 60 cm", "(d) 100 cm"],
+      mr: ["(a) २० सेमी", "(b) ४० सेमी", "(c) ६० सेमी", "(d) १०० सेमी"],
+      or: ["(a) ୨୦ ସେମି", "(b) ୪୦ ସେମି", "(c) ୬୦ ସେମି", "(d) ୧୦୦ ସେମି"],
+      kha: ["(a) 20 cm", "(b) 40 cm", "(c) 60 cm", "(d) 100 cm"],
+    },
+    correct: [1],
+  },
+  {
+    id: "q4", type: "single",
+    text: {
+      hi: "4. प्रेसबायोपिया का आसान और कम खर्च वाला उपाय क्या है?",
+      en: "4. What is a simple, low-cost correction for presbyopia?",
+      mr: "४. प्रेस्बायोपियावर सोपा आणि कमी खर्चाचा उपाय कोणता?",
+      or: "୪. ପ୍ରେସବାୟୋପିଆର ସହଜ ଓ କମ୍ ଖର୍ଚ୍ଚର ଉପାୟ କ'ଣ?",
+      kha: "4. Kaei ka rukom ba suk bad ba khyndiat daw ïa ka presbyopia?",
+    },
+    options: {
+      hi: ["(a) ऑपरेशन", "(b) आँख की दवा (ड्रॉप)", "(c) पढ़ने का चश्मा", "(d) सिर्फ़ कॉन्टैक्ट लेंस"],
+      en: ["(a) Surgery", "(b) Eye drops", "(c) Reading glasses", "(d) Contact lenses only"],
+      mr: ["(a) ऑपरेशन", "(b) डोळ्यांचे ड्रॉप्स", "(c) वाचनाचा चष्मा", "(d) फक्त कॉन्टॅक्ट लेन्स"],
+      or: ["(a) ଅସ୍ତ୍ରୋପଚାର", "(b) ଆଖି ଡ୍ରପ୍", "(c) ପଢ଼ିବା ଚଷମା", "(d) କେବଳ କଣ୍ଟାକ୍ଟ ଲେନ୍ସ"],
+      kha: ["(a) Surgery", "(b) Dawai khmat (eye drops)", "(c) Chasma ban pule", "(d) Contact lens tang"],
+    },
+    correct: [2],
+  },
+  {
+    id: "q5", type: "single",
+    text: {
+      hi: "5. प्रेसबायोपिया का मुख्य लक्षण क्या है?",
+      en: "5. What is the main symptom of presbyopia?",
+      mr: "५. प्रेस्बायोपियाचे मुख्य लक्षण कोणते?",
+      or: "୫. ପ୍ରେସବାୟୋପିଆର ମୁଖ୍ୟ ଲକ୍ଷଣ କ'ଣ?",
+      kha: "5. Kaei ka dak babha jong ka presbyopia?",
+    },
+    options: {
+      hi: ["(a) पास की चीज़ें धुंधली दिखना", "(b) आँखों में दर्द", "(c) आँखें लाल होना", "(d) दो-दो दिखाई देना"],
+      en: ["(a) Blurred near vision", "(b) Eye pain", "(c) Red eyes", "(d) Double vision"],
+      mr: ["(a) जवळचे धूसर दिसणे", "(b) डोळ्यांत दुखणे", "(c) डोळे लाल होणे", "(d) दुहेरी दिसणे"],
+      or: ["(a) ପାଖର ଜିନିଷ ଝାପ୍‌ସା ଦେଖାଯିବା", "(b) ଆଖି ଯନ୍ତ୍ରଣା", "(c) ଆଖି ଲାଲ୍ ହେବା", "(d) ଯୋଡ଼ା ଦେଖାଯିବା"],
+      kha: ["(a) Ki jingthaw ba jan ki mih blur", "(b) Ka jingsngew ïap ha ki khmat", "(c) Ki khmat ki saw", "(d) Peit ar tylli"],
+    },
+    correct: [0],
+  },
+  {
+    id: "q6", type: "single",
+    text: {
+      hi: "6. दूर की दृष्टि जाँचते समय व्यक्ति को स्नेलन 'E' चार्ट से कितनी दूर बैठाना चाहिए?",
+      en: "6. During distance vision screening, how far should the person sit from the Snellen 'E' chart?",
+      mr: "६. दूरची दृष्टी तपासताना व्यक्तीला स्नेलन 'E' चार्टपासून किती अंतरावर बसवावे?",
+      or: "୬. ଦୂର ଦୃଷ୍ଟି ଯାଞ୍ଚ କରିବା ସମୟରେ ବ୍ୟକ୍ତିଙ୍କୁ ସ୍ନେଲେନ୍ 'E' ଚାର୍ଟଠାରୁ କେତେ ଦୂରରେ ବସାଇବା ଉଚିତ୍?",
+      kha: "6. Haba ïatiar ïa ka peit ba jngai, katno ka jingjngai u briew un shong na ka Snellen 'E' chart?",
+    },
+    options: {
+      hi: ["(a) 1 मीटर", "(b) 3 मीटर", "(c) 5 मीटर", "(d) 10 मीटर"],
+      en: ["(a) 1 metre", "(b) 3 metres", "(c) 5 metres", "(d) 10 metres"],
+      mr: ["(a) १ मीटर", "(b) ३ मीटर", "(c) ५ मीटर", "(d) १० मीटर"],
+      or: ["(a) ୧ ମିଟର", "(b) ୩ ମିଟର", "(c) ୫ ମିଟର", "(d) ୧୦ ମିଟର"],
+      kha: ["(a) 1 meter", "(b) 3 meter", "(c) 5 meter", "(d) 10 meter"],
+    },
+    correct: [1],
+  },
+  {
+    id: "q7", type: "multi",
+    text: {
+      hi: "7. निकट दृष्टि का चश्मा पहनकर कौन-कौन से काम आसानी से किए जा सकते हैं?",
+      en: "7. Which of these tasks can be done more easily while wearing near-vision glasses?",
+      mr: "७. जवळच्या दृष्टीचा चष्मा घालून कोणती कामे सहज करता येतात?",
+      or: "୭. ନିକଟ ଦୃଷ୍ଟି ଚଷମା ପିନ୍ଧି କେଉଁ କାମଗୁଡ଼ିକ ସହଜରେ କରିହେବ?",
+      kha: "7. Haba pyndonkam ïa ka chasma ban peit ba jan, kiei ki kam kiba lah ban leh ba suk?",
+    },
+    options: {
+      hi: ["फ़सल में कीड़े पहचानना", "फ़ोन चलाना: UPI से पैसे भेजना, YouTube देखना", "साइकिल चलाना", "कपड़े सिलना"],
+      en: ["Identifying pests in crops", "Using a phone: UPI payments, watching YouTube", "Riding a bicycle", "Stitching clothes"],
+      mr: ["पिकातील किडी ओळखणे", "फोन वापरणे: UPI पेमेंट, YouTube पाहणे", "सायकल चालवणे", "कपडे शिवणे"],
+      or: ["ଫସଲରେ ପୋକ ଚିହ୍ନଟ କରିବା", "ଫୋନ୍ ବ୍ୟବହାର: UPI ପେମେଣ୍ଟ, YouTube ଦେଖିବା", "ସାଇକେଲ୍ ଚଲାଇବା", "ଲୁଗା ସିଲେଇ କରିବା"],
+      kha: ["Ban tip ïa ki insect ha ki jhur", "Ban pyndonkam ïa ka phone: UPI payment, YouTube", "Ban ïaid cycle", "Ban tyrkhong jain"],
+    },
+    correct: [0, 1, 3],
+  },
+  {
+    id: "q8", type: "single",
+    text: {
+      hi: "8. अगर कोई व्यक्ति दूर की दृष्टि जाँच में चार्ट नहीं पढ़ पाता, तो अगला कदम क्या है?",
+      en: "8. A person cannot read the chart during the distance vision test. What is the next step?",
+      mr: "८. एखाद्या व्यक्तीला दूरदृष्टी तपासणीत चार्ट वाचता येत नसेल, तर पुढील पायरी कोणती?",
+      or: "୮. ଯଦି କେହି ବ୍ୟକ୍ତି ଦୂର ଦୃଷ୍ଟି ଯାଞ୍ଚରେ ଚାର୍ଟ ପଢ଼ିପାରୁ ନାହାନ୍ତି, ତେବେ ପରବର୍ତ୍ତୀ ପଦକ୍ଷେପ କ'ଣ?",
+      kha: "8. Lada u briew um lah pule ïa ka chart ha ka jingïatiar peit ba jngai, kaei ka step ba wan?",
+    },
+    options: {
+      hi: ["(a) पास की दृष्टि जाँचें", "(b) पढ़ने का चश्मा दे दें", "(c) पूरी आँखों की जाँच के लिए रेफर करें", "(d) पता नहीं"],
+      en: ["(a) Check near vision", "(b) Give reading glasses", "(c) Refer for a full eye check-up", "(d) Don't know"],
+      mr: ["(a) जवळची दृष्टी तपासा", "(b) वाचनाचा चष्मा द्या", "(c) संपूर्ण डोळे तपासणीसाठी पाठवा", "(d) माहीत नाही"],
+      or: ["(a) ନିକଟ ଦୃଷ୍ଟି ଯାଞ୍ଚ କରନ୍ତୁ", "(b) ପଢ଼ିବା ଚଷମା ଦିଅନ୍ତୁ", "(c) ପୂର୍ଣ୍ଣ ଆଖି ଯାଞ୍ଚ ପାଇଁ ପଠାନ୍ତୁ", "(d) ଜଣା ନାହିଁ"],
+      kha: ["(a) Ïatiar ïa ka peit ba jan", "(b) Ai ïa ka chasma ban pule", "(c) Phah sha ka jingïatiar khmat ba kumba dei", "(d) Ym tip"],
+    },
+    correct: [2],
+  },
+  {
+    id: "q9", type: "single",
+    text: {
+      hi: "9. निकट दृष्टि चार्ट की कौन-सी लाइन पढ़ लेने पर व्यक्ति को प्रेसबायोपिया नहीं माना जाता?",
+      en: "9. Which line on the near vision chart must a person read to not be considered presbyopic?",
+      mr: "९. जवळच्या दृष्टी चार्टवरील कोणती ओळ वाचता आल्यास व्यक्तीला प्रेस्बायोपिया नाही असे मानले जाते?",
+      or: "୯. ନିକଟ ଦୃଷ୍ଟି ଚାର୍ଟର କେଉଁ ଧାଡ଼ି ପଢ଼ିପାରିଲେ ବ୍ୟକ୍ତିଙ୍କର ପ୍ରେସବାୟୋପିଆ ନାହିଁ ବୋଲି ଧରାଯାଏ?",
+      kha: "9. Kaei ka line ha ka near vision chart ba lada u lah pule, u ym long presbyopic?",
+    },
+    options: {
+      hi: ["(a) N12", "(b) N10", "(c) N8", "(d) N6"],
+      en: ["(a) N12", "(b) N10", "(c) N8", "(d) N6"],
+      mr: ["(a) N12", "(b) N10", "(c) N8", "(d) N6"],
+      or: ["(a) N12", "(b) N10", "(c) N8", "(d) N6"],
+      kha: ["(a) N12", "(b) N10", "(c) N8", "(d) N6"],
+    },
+    correct: [3],
+  },
+  {
+    id: "q10", type: "single",
+    text: {
+      hi: "10. हर स्क्रीनिंग के बाद काउंसलिंग क्यों ज़रूरी है?",
+      en: "10. Why is counselling important after each screening?",
+      mr: "१०. प्रत्येक स्क्रीनिंगनंतर काउंसलिंग का आवश्यक आहे?",
+      or: "୧୦. ପ୍ରତ୍ୟେକ ସ୍କ୍ରିନିଂ ପରେ କାଉନସେଲିଂ କାହିଁକି ଜରୁରୀ?",
+      kha: "10. Balei ka counselling ka donkam hadien man ka screening?",
+    },
+    options: {
+      hi: ["A) इससे जाँच की ज़रूरत ही नहीं पड़ती", "B) इससे व्यक्ति समझ पाता है कि निकट दृष्टि का चश्मा कब और कहाँ पहनना है", "C) इससे स्क्रीनिंग जल्दी पूरी होती है"],
+      en: ["A) It removes the need for testing", "B) It helps the person understand when and where to use near-vision glasses", "C) It helps finish the screening faster"],
+      mr: ["A) यामुळे तपासणीची गरजच राहत नाही", "B) यामुळे व्यक्तीला जवळच्या दृष्टीचा चष्मा कधी आणि कुठे वापरायचा हे समजते", "C) यामुळे स्क्रीनिंग लवकर पूर्ण होते"],
+      or: ["A) ଏଥିରେ ଯାଞ୍ଚର ଆବଶ୍ୟକତା ରହେ ନାହିଁ", "B) ଏଥିରେ ବ୍ୟକ୍ତି ବୁଝିପାରନ୍ତି ଯେ ନିକଟ ଦୃଷ୍ଟି ଚଷମା କେବେ ଓ କେଉଁଠି ପିନ୍ଧିବେ", "C) ଏଥିରେ ସ୍କ୍ରିନିଂ ଶୀଘ୍ର ସରିଯାଏ"],
+      kha: ["A) Ym donkam shuh ban ïatiar", "B) Ka iarap ïa u briew ban sngewthuh mynno bad hangno ban pyndonkam ïa ka chasma ban peit ba jan", "C) Ka pynkut lyngkot ïa ka screening"],
+    },
+    correct: [1],
+  },
+  {
+    id: "q11", type: "single",
+    text: {
+      hi: "11. दूर की दृष्टि जाँच में एक आँख ढकने का क्या मकसद है?",
+      en: "11. What is the purpose of covering one eye during the distance vision test?",
+      mr: "११. दूरदृष्टी तपासणीत एक डोळा झाकण्याचा उद्देश काय?",
+      or: "୧୧. ଦୂର ଦୃଷ୍ଟି ଯାଞ୍ଚରେ ଗୋଟିଏ ଆଖି ଢାଙ୍କିବାର ଉଦ୍ଦେଶ୍ୟ କ'ଣ?",
+      kha: "11. Balei ngi tap ïa ka shi tylli khmat haba ïatiar ïa ka peit ba jngai?",
+    },
+    options: {
+      hi: ["(A) आँख का रंग देखने के लिए", "(B) आँख को आराम देने के लिए", "(C) दोनों आँखों की अलग-अलग जाँच करने के लिए"],
+      en: ["(A) To check the colour of the eye", "(B) To rest the eye", "(C) To test each eye separately"],
+      mr: ["(A) डोळ्याचा रंग पाहण्यासाठी", "(B) डोळ्याला विश्रांती देण्यासाठी", "(C) दोन्ही डोळे वेगवेगळे तपासण्यासाठी"],
+      or: ["(A) ଆଖିର ରଙ୍ଗ ଦେଖିବା ପାଇଁ", "(B) ଆଖିକୁ ବିଶ୍ରାମ ଦେବା ପାଇଁ", "(C) ଦୁଇ ଆଖିକୁ ଅଲଗା ଅଲଗା ଯାଞ୍ଚ କରିବା ପାଇଁ"],
+      kha: ["(A) Ban peit ïa ka rong jong ka khmat", "(B) Ban ai jingjah ïa ka khmat", "(C) Ban ïatiar lang-lang ïa ki ar tylli khmat"],
+    },
+    correct: [2],
+  },
+  {
+    id: "q12", type: "single",
+    text: {
+      hi: "12. अगर व्यक्ति ने दूर का चश्मा पहना है, तो दूर की दृष्टि जाँच से पहले उसे उतरवा दें — सही या गलत?",
+      en: "12. If the person is wearing distance glasses, ask them to remove it before the distance vision test — True or False?",
+      mr: "१२. व्यक्तीने दूरचा चष्मा घातला असेल, तर दूरदृष्टी तपासणीपूर्वी तो काढायला सांगावा — बरोबर की चूक?",
+      or: "୧୨. ଯଦି ବ୍ୟକ୍ତି ଦୂର ଚଷମା ପିନ୍ଧିଛନ୍ତି, ଦୂର ଦୃଷ୍ଟି ଯାଞ୍ଚ ପୂର୍ବରୁ ତାହା କାଢ଼ିବାକୁ କହିବା — ଠିକ୍ ନା ଭୁଲ୍?",
+      kha: "12. Lada u briew u la wan chasma ban peit ba jngai, ngi dei ban ong ïa u ban kyrhoh ïa ka mynba ïatiar — Shisha ne Bakla?",
+    },
+    options: {
+      hi: ["(A) सही", "(B) गलत"],
+      en: ["(A) True", "(B) False"],
+      mr: ["(A) बरोबर", "(B) चूक"],
+      or: ["(A) ଠିକ୍", "(B) ଭୁଲ୍"],
+      kha: ["(A) Shisha", "(B) Bakla"],
+    },
+    correct: [1],
+  },
+  {
+    id: "q13", type: "single",
+    text: {
+      hi: "13. एक व्यक्ति की उम्र 22 साल है। जाँच किस डायोप्टर से शुरू करेंगे?",
+      en: "13. A person is 22 years old. Which diopter should you start the test with?",
+      mr: "१३. एका व्यक्तीचे वय २२ वर्षे आहे. तपासणी कोणत्या डायोप्टरने सुरू कराल?",
+      or: "୧୩. ଜଣେ ବ୍ୟକ୍ତିଙ୍କ ବୟସ ୨୨ ବର୍ଷ। ଯାଞ୍ଚ କେଉଁ ଡାୟୋପ୍ଟରରୁ ଆରମ୍ଭ କରିବେ?",
+      kha: "13. U briew u don 22 snem. Na kaei ka diopter phi sdang ban ïatiar?",
+    },
+    options: {
+      hi: ["(A) कोई चश्मा नहीं", "(B) +1.00", "(C) +1.50", "(D) +2.00", "(E) +2.50", "(F) +3.00"],
+      en: ["(A) No glasses", "(B) +1.00", "(C) +1.50", "(D) +2.00", "(E) +2.50", "(F) +3.00"],
+      mr: ["(A) चष्मा नाही", "(B) +1.00", "(C) +1.50", "(D) +2.00", "(E) +2.50", "(F) +3.00"],
+      or: ["(A) ଚଷମା ନାହିଁ", "(B) +1.00", "(C) +1.50", "(D) +2.00", "(E) +2.50", "(F) +3.00"],
+      kha: ["(A) Ym chasma", "(B) +1.00", "(C) +1.50", "(D) +2.00", "(E) +2.50", "(F) +3.00"],
+    },
+    correct: [0],
+  },
+  {
+    id: "q14", type: "single",
+    text: {
+      hi: "14. एक व्यक्ति की उम्र 50 साल है। जाँच किस डायोप्टर से शुरू करेंगे?",
+      en: "14. A person is 50 years old. Which diopter should you start the test with?",
+      mr: "१४. एका व्यक्तीचे वय ५० वर्षे आहे. तपासणी कोणत्या डायोप्टरने सुरू कराल?",
+      or: "୧୪. ଜଣେ ବ୍ୟକ୍ତିଙ୍କ ବୟସ ୫୦ ବର୍ଷ। ଯାଞ୍ଚ କେଉଁ ଡାୟୋପ୍ଟରରୁ ଆରମ୍ଭ କରିବେ?",
+      kha: "14. U briew u don 50 snem. Na kaei ka diopter phi sdang ban ïatiar?",
+    },
+    options: {
+      hi: ["(A) कोई चश्मा नहीं", "(B) +1.00", "(C) +1.50", "(D) +2.00", "(E) +2.50", "(F) +3.00"],
+      en: ["(A) No glasses", "(B) +1.00", "(C) +1.50", "(D) +2.00", "(E) +2.50", "(F) +3.00"],
+      mr: ["(A) चष्मा नाही", "(B) +1.00", "(C) +1.50", "(D) +2.00", "(E) +2.50", "(F) +3.00"],
+      or: ["(A) ଚଷମା ନାହିଁ", "(B) +1.00", "(C) +1.50", "(D) +2.00", "(E) +2.50", "(F) +3.00"],
+      kha: ["(A) Ym chasma", "(B) +1.00", "(C) +1.50", "(D) +2.00", "(E) +2.50", "(F) +3.00"],
+    },
+    correct: [3], // Confirmed by training team: +2.00D for age 50
+  },
+  {
+    id: "q15", type: "single",
+    text: {
+      hi: "15. सारे चश्मे आज़माने के बाद भी व्यक्ति निकट दृष्टि चार्ट की आख़िरी लाइन नहीं पढ़ पा रहा। आप क्या करेंगे?",
+      en: "15. A person still cannot read the last line of the near vision chart after trying all the glasses. What should you do?",
+      mr: "१५. सर्व चष्मे वापरूनही व्यक्तीला जवळच्या दृष्टी चार्टची शेवटची ओळ वाचता येत नाही. तुम्ही काय कराल?",
+      or: "୧୫. ସବୁ ଚଷମା ଚେଷ୍ଟା କରିବା ପରେ ମଧ୍ୟ ବ୍ୟକ୍ତି ନିକଟ ଦୃଷ୍ଟି ଚାର୍ଟର ଶେଷ ଧାଡ଼ି ପଢ଼ିପାରୁ ନାହାନ୍ତି। ଆପଣ କ'ଣ କରିବେ?",
+      kha: "15. Hadien ba la try baroh ki chasma, u briew um lah pule ïa ka line ba khatduh jong ka near vision chart. Kaei phi leh?",
+    },
+    options: {
+      hi: ["A) उन्हें बता दें कि चश्मे की ज़रूरत नहीं और जाने दें", "B) कम डायोप्टर का चश्मा पहनाकर दोबारा जाँचें", "C) आँखों के अस्पताल में रेफर करें"],
+      en: ["A) Tell them they don't need glasses and let them go", "B) Try again with a lower diopter", "C) Refer them to an eye hospital"],
+      mr: ["A) चष्म्याची गरज नाही असे सांगून पाठवून द्या", "B) कमी डायोप्टरचा चष्मा देऊन पुन्हा तपासा", "C) नेत्ररुग्णालयात पाठवा"],
+      or: ["A) ଚଷମା ଦରକାର ନାହିଁ ବୋଲି କହି ଛାଡ଼ିଦିଅନ୍ତୁ", "B) କମ୍ ଡାୟୋପ୍ଟର ଚଷମା ଦେଇ ପୁଣି ଯାଞ୍ଚ କରନ୍ତୁ", "C) ଆଖି ଡାକ୍ତରଖାନାକୁ ପଠାନ୍ତୁ"],
+      kha: ["A) Ong ba um donkam chasma bad ai ba un leit", "B) Ai chasma diopter ba khyndiat bad ïatiar biang", "C) Phah sha ka hospital khmat"],
+    },
+    correct: [2],
+  },
+];
+
+/* ======================================================================
+   4. APP LOGIC
+   ====================================================================== */
+const IS_POST = QUIZ_TYPE === "POST";
+
+let stage = "geo"; // geo -> intake -> quiz -> summary
+let stateCode = null;
+let stateName = "";
+let district = "";
+let districtOther = "";
+let block = "";
+let blockOther = "";
+let lang = "hi";
+let name = "";
+let phone = "";
+let education = null;
+let qIndex = 0;
+let selected = [];
+let answers = new Array(QUESTIONS.length).fill(null);
+let saveState = "idle"; // idle -> saving -> saved -> error
+let formError = "";
+
+function t(obj) {
+  return obj[lang] ?? obj.hi;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str == null ? "" : String(str);
+  return div.innerHTML;
+}
+
+const OTHER = "__OTHER__";
+
+function districtValue() {
+  return district === OTHER ? districtOther.trim() : district;
+}
+
+function blockValue() {
+  return block === OTHER ? blockOther.trim() : block;
+}
+
+// Districts and blocks are stored as {en, hi, mr, or, kha}. `en` is the
+// canonical value written to the Sheet; loc() picks the display label.
+function loc(obj) {
+  if (obj == null) return "";
+  if (typeof obj === "string") return obj;
+  return obj[lang] || obj.en || "";
+}
+
+function districtList(stCode) {
+  return (stCode && DISTRICTS[stCode]) || [];
+}
+
+function blocksFor(stCode, dist) {
+  return BLOCKS[stCode + "|" + dist] || null;
+}
+
+/* ---------- Participant key ----------
+   The join key between the PRE and POST tests is the normalised
+   10-digit mobile number. It is numeric, so it survives the
+   participant switching language between the two tests, and it is
+   unique in a way that a typed name is not.
+   The short code (e.g. SUN-4521) is NOT the key — it is a human-
+   readable label for the attendance register so a trainer can spot a
+   mistyped number at the post-test.                                    */
+
+function normalisePhone(raw) {
+  var d = String(raw || "").replace(/\D/g, "");
+  if (d.length === 12 && d.indexOf("91") === 0) d = d.slice(2);   // +91…
+  else if (d.length === 11 && d.charAt(0) === "0") d = d.slice(1); // 0…
+  return d;
+}
+
+function isValidPhone(raw) {
+  return /^[6-9]\d{9}$/.test(normalisePhone(raw));
+}
+
+function participantId() {
+  return normalisePhone(phone);
+}
+
+
+
+/* ---------- Actions ---------- */
+function setState(code) {
+  stateCode = code || null;
+  const s = STATES.find((x) => x.code === code);
+  stateName = s ? s.label.en : "";   // English canonical, for the Sheet
+  if (s) lang = s.lang;
+  district = "";
+  districtOther = "";
+  block = "";
+  blockOther = "";
+  formError = "";
+  render();
+}
+
+function setLang(code) {
+  lang = code;
+  render();
+}
+
+function toggleOption(i) {
+  const q = QUESTIONS[qIndex];
+  selected = q.type === "single"
+    ? [i]
+    : selected.includes(i) ? selected.filter((x) => x !== i) : [...selected, i];
+  render();
+}
+
+// Writes the current selection into the answers slot for this question.
+// Called on both Next and Back, so an edited answer is kept either way.
+function commitCurrent() {
+  if (selected.length === 0) return;
+  const q = QUESTIONS[qIndex];
+  answers[qIndex] = {
+    qid: q.id,
+    selected: [...selected],
+    correctIdx: [...q.correct],
+    isCorrect: isSelectionCorrect(q, selected),
+  };
+}
+
+function goToQuestion(i) {
+  commitCurrent();
+  qIndex = i;
+  const prev = answers[qIndex];
+  selected = prev ? [...prev.selected] : [];
+  render();
+}
+
+function isSelectionCorrect(q, sel) {
+  return [...sel].sort().join(",") === [...q.correct].sort().join(",");
+}
+
+// Correctness is always computed and saved for MEL analysis.
+// In the PRE flow it is never shown to the participant; in the POST
+// flow it is shown only on the final summary screen.
+async function answerAndAdvance() {
+  if (selected.length === 0) return;
+  commitCurrent();
+
+  if (qIndex + 1 < QUESTIONS.length) {
+    goToQuestion(qIndex + 1);
+  } else {
+    await submit();
+  }
+}
+
+function buildPayload() {
+  return {
+    quizType: QUIZ_TYPE,
+    state: stateCode,
+    stateName: stateName,
+    district: districtValue(),
+    block: blockValue(),
+    language: lang,
+    name: name.trim() || null,
+    phone: participantId() || null,
+    participantId: participantId() || null,
+    education: education !== null ? UI.eduOpts.en[education] : null,
+    educationLocal: education !== null ? UI.eduOpts[lang][education] : null,
+    score: answers.filter((a) => a && a.isCorrect).length,
+    total: QUESTIONS.length,
+    answers: answers.map((a) => a || null),
+    submittedAt: new Date().toISOString(),
+  };
+}
+
+async function submit() {
+  stage = "summary";
+  saveState = "saving";
+  render();
+
+  // Google Apps Script Web Apps don't send CORS headers back to browser
+  // fetch() calls, so we use mode: "no-cors". The request still reaches
+  // the script and still writes to the Sheet, but the browser blocks us
+  // from reading the response, so "the request didn't throw" is the only
+  // success signal available.
+  try {
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(buildPayload()),
+    });
+    saveState = "saved";
+  } catch (e) {
+    console.error(e);
+    saveState = "error";
+  }
+  render();
+}
+
+function restart() {
+  stage = "geo";
+  stateCode = null; stateName = ""; district = ""; districtOther = "";
+  block = ""; blockOther = ""; name = ""; phone = ""; education = null;
+  qIndex = 0; selected = []; answers = new Array(QUESTIONS.length).fill(null);
+  saveState = "idle"; formError = "";
+  render();
+}
+
+/* ---------- Render ---------- */
+function render() {
+  renderHeader();
+  const app = document.getElementById("app");
+  if (stage === "geo") renderGeo(app);
+  else if (stage === "intake") renderIntake(app);
+  else if (stage === "quiz") renderQuiz(app);
+  else renderSummary(app);
+}
+
+function renderHeader() {
+  // Page chrome is re-rendered on every language change too.
+  const setText = (id, val) => {
+    const node = document.getElementById(id);
+    if (node) node.textContent = val;
+  };
+  setText("headerTitle", t(IS_POST ? UI.headerTitlePost : UI.headerTitle));
+  setText("headerSub", t(IS_POST ? UI.headerSubPost : UI.headerSub));
+  setText("bannerSub", t(IS_POST ? UI.headerSubPost : UI.headerSub));
+  setText("topBadge", t(IS_POST ? UI.badgePost : UI.badge));
+  setText("bannerBadge", t(IS_POST ? UI.badgePost : UI.badge));
+
+  const el = document.getElementById("headerRight");
+  const st = STATES.find((x) => x.code === stateCode);
+  const dObj = districtList(stateCode).find((d) => d.en === districtValue());
+  const bits = [st ? loc(st.label) : "", dObj ? loc(dObj) : districtValue()].filter(Boolean);
+  el.innerHTML = bits.length
+    ? `<span class="state-chip">${escapeHtml(bits.join(" · "))}</span>`
+    : "";
+}
+
+function renderLangSwitcher(container) {
+  container.innerHTML = LANGS.map(
+    (l) => `<button type="button" class="lang-btn ${lang === l.code ? "active" : ""}" data-lang="${l.code}">${escapeHtml(l.label)}</button>`
+  ).join("");
+  container.querySelectorAll("[data-lang]").forEach((btn) => {
+    btn.addEventListener("click", () => setLang(btn.dataset.lang));
+  });
+}
+
+// value = canonical English, label = current language
+function optionTags(items, current) {
+  return items.map((it) => {
+    const v = typeof it === "string" ? it : it.en;
+    return `<option value="${escapeHtml(v)}" ${current === v ? "selected" : ""}>${escapeHtml(loc(it))}</option>`;
+  }).join("");
+}
+
+function renderGeo(app) {
+  const districts = districtList(stateCode);
+  const dVal = districtValue();
+  const blockList = stateCode && dVal ? blocksFor(stateCode, dVal) : null;
+
+  let blockField = "";
+  if (!district) {
+    blockField = `<select class="input" id="blockSelect" disabled>
+        <option>${escapeHtml(t(UI.choose))}</option>
+      </select>`;
+  } else if (blockList) {
+    blockField = `<select class="input" id="blockSelect">
+        <option value="">${escapeHtml(t(UI.choose))}</option>
+        ${optionTags(blockList, block)}
+        <option value="${OTHER}" ${block === OTHER ? "selected" : ""}>${escapeHtml(t(UI.otherType))}</option>
+      </select>
+      ${block === OTHER ? `<input class="input mt8" id="blockOther" placeholder="${escapeHtml(t(UI.blockHint))}" value="${escapeHtml(blockOther)}" />` : ""}`;
+  } else {
+    // No block list configured for this district — free text so nobody is stuck.
+    blockField = `<input class="input" id="blockFree" placeholder="${escapeHtml(t(UI.blockHint))}" value="${escapeHtml(block === OTHER ? blockOther : block)}" />`;
+  }
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="lang-row" id="langRow"></div>
+      <p class="eyebrow">${escapeHtml(t(UI.selectPlace))}</p>
+      <h2 class="h2">${escapeHtml(t(UI.title))}</h2>
+
+      <div class="field">
+        <label class="label" for="stateSelect">${escapeHtml(t(UI.stateLbl))}</label>
+        <select class="input" id="stateSelect">
+          <option value="">${escapeHtml(t(UI.choose))}</option>
+          ${STATES.map((s) => `<option value="${s.code}" ${stateCode === s.code ? "selected" : ""}>${escapeHtml(loc(s.label))}</option>`).join("")}
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="label" for="districtSelect">${escapeHtml(t(UI.districtLbl))}</label>
+        <select class="input" id="districtSelect" ${stateCode ? "" : "disabled"}>
+          <option value="">${escapeHtml(stateCode ? t(UI.choose) : t(UI.chooseStateFirst))}</option>
+          ${optionTags(districts, district)}
+          <option value="${OTHER}" ${district === OTHER ? "selected" : ""}>${escapeHtml(t(UI.otherType))}</option>
+        </select>
+        ${district === OTHER ? `<input class="input mt8" id="districtOther" value="${escapeHtml(districtOther)}" />` : ""}
+      </div>
+
+      <div class="field">
+        <label class="label" for="blockSelect">${escapeHtml(t(UI.blockLbl))}</label>
+        ${blockField}
+      </div>
+
+      ${formError ? `<p class="form-error">${escapeHtml(formError)}</p>` : ""}
+      <button type="button" class="primary-btn" id="geoNext">${escapeHtml(t(UI.continue))}</button>
+    </div>`;
+
+  renderLangSwitcher(document.getElementById("langRow"));
+
+  document.getElementById("stateSelect").addEventListener("change", (e) => setState(e.target.value));
+
+  const dSel = document.getElementById("districtSelect");
+  if (dSel) dSel.addEventListener("change", (e) => {
+    district = e.target.value;
+    districtOther = "";
+    block = "";
+    blockOther = "";
+    formError = "";
+    render();
+  });
+
+  const dOther = document.getElementById("districtOther");
+  if (dOther) dOther.addEventListener("input", (e) => { districtOther = e.target.value; });
+
+  const bSel = document.getElementById("blockSelect");
+  if (bSel && !bSel.disabled) bSel.addEventListener("change", (e) => {
+    block = e.target.value;
+    blockOther = "";
+    formError = "";
+    render();
+  });
+
+  const bOther = document.getElementById("blockOther");
+  if (bOther) bOther.addEventListener("input", (e) => { blockOther = e.target.value; });
+
+  const bFree = document.getElementById("blockFree");
+  if (bFree) bFree.addEventListener("input", (e) => { block = e.target.value; blockOther = ""; });
+
+  document.getElementById("geoNext").addEventListener("click", () => {
+    if (!stateCode || !districtValue() || !blockValue()) {
+      formError = t(UI.fillAll);
+      render();
+      return;
+    }
+    formError = "";
+    stage = "intake";
+    render();
+  });
+}
+
+function renderIntake(app) {
+  app.innerHTML = `
+    <div class="card">
+      <div class="lang-row" id="langRow"></div>
+      <p class="eyebrow">${escapeHtml(t(UI.aboutYou))}</p>
+      <h2 class="h2">${escapeHtml(t(UI.title))}</h2>
+      <div class="field">
+        <label class="label" for="nameInput">${escapeHtml(t(UI.name))}</label>
+        <input class="input" id="nameInput" value="${escapeHtml(name)}" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label class="label" for="phoneInput">${escapeHtml(t(UI.phone))}</label>
+        <input class="input" id="phoneInput" value="${escapeHtml(phone)}" inputmode="numeric" autocomplete="tel" maxlength="15" />
+        <p class="field-hint">${escapeHtml(t(UI.phoneHint))}</p>
+      </div>
+      <div class="field">
+        <label class="label">${escapeHtml(t(UI.education))}</label>
+        <div class="opt-col" id="eduCol">
+          ${t(UI.eduOpts).map((opt, i) =>
+            `<button type="button" class="choice-btn ${education === i ? "active" : ""}" data-edu-idx="${i}">${escapeHtml(opt)}</button>`
+          ).join("")}
+        </div>
+      </div>
+      ${formError ? `<p class="form-error">${escapeHtml(formError)}</p>` : ""}
+      <button type="button" class="primary-btn" id="startBtn">${escapeHtml(t(UI.start))}</button>
+      <button type="button" class="ghost-btn" id="backBtn">${escapeHtml(t(UI.back))}</button>
+    </div>`;
+
+  renderLangSwitcher(document.getElementById("langRow"));
+  document.getElementById("nameInput").addEventListener("input", (e) => (name = e.target.value));
+  document.getElementById("phoneInput").addEventListener("input", (e) => (phone = e.target.value));
+  app.querySelectorAll("[data-edu-idx]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      education = parseInt(btn.dataset.eduIdx, 10);
+      formError = "";
+      render();
+    });
+  });
+  document.getElementById("backBtn").addEventListener("click", () => {
+    stage = "geo";
+    formError = "";
+    render();
+  });
+  document.getElementById("startBtn").addEventListener("click", () => {
+    if (!name.trim() || education === null) {
+      formError = t(UI.needName);
+      render();
+      return;
+    }
+    if (!isValidPhone(phone)) {
+      formError = t(UI.badPhone);
+      render();
+      return;
+    }
+    formError = "";
+    stage = "quiz";
+    render();
+  });
+}
+
+function renderQuiz(app) {
+  const q = QUESTIONS[qIndex];
+  const options = t(q.options);
+  const pct = Math.round((qIndex / QUESTIONS.length) * 100);
+  const answeredCount = answers.filter(Boolean).length;
+  const isLast = qIndex + 1 === QUESTIONS.length;
+
+  // On the last question, Submit stays disabled until every question has an
+  // answer — otherwise someone who jumped back and forth could submit a
+  // half-filled test without noticing.
+  const unanswered = answers
+    .map((a, i) => (a ? null : i + 1))
+    .filter((n) => n !== null && n !== qIndex + 1);
+  const canSubmit = selected.length > 0 && unanswered.length === 0;
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <p class="eyebrow">${escapeHtml(t(UI.question))} ${qIndex + 1} / ${QUESTIONS.length}</p>
+      <h3 class="q-text">${escapeHtml(t(q.text))}</h3>
+      ${q.type === "multi" ? `<p class="hint">${escapeHtml(t(UI.multiHint))}</p>` : ""}
+      <div class="opt-col" id="optCol">
+        ${options.map((opt, i) =>
+          `<button type="button" class="choice-btn ${selected.includes(i) ? "active" : ""}" data-opt-idx="${i}">${escapeHtml(opt)}</button>`
+        ).join("")}
+      </div>
+
+      ${isLast && unanswered.length
+        ? `<p class="form-error">${escapeHtml(t(UI.unanswered))} ${unanswered.join(", ")}</p>`
+        : ""}
+
+      <div class="nav-row">
+        <button type="button" class="nav-btn" id="prevBtn" ${qIndex === 0 ? "disabled" : ""}>
+          ${escapeHtml(t(UI.prev))}
+        </button>
+        <button type="button" class="nav-btn primary" id="nextBtn"
+          ${isLast ? (canSubmit ? "" : "disabled") : (selected.length ? "" : "disabled")}>
+          ${isLast ? escapeHtml(t(UI.finish)) : escapeHtml(t(UI.next))}
+        </button>
+      </div>
+
+      <div class="dot-row" id="dotRow">
+        ${QUESTIONS.map((_, i) => {
+          const cls = i === qIndex ? "dot current" : answers[i] ? "dot done" : "dot";
+          return `<button type="button" class="${cls}" data-jump="${i}" aria-label="${escapeHtml(t(UI.question))} ${i + 1}">${i + 1}</button>`;
+        }).join("")}
+      </div>
+      <p class="dot-legend">${answeredCount} / ${QUESTIONS.length}</p>
+    </div>`;
+
+  app.querySelectorAll("[data-opt-idx]").forEach((btn) => {
+    btn.addEventListener("click", () => toggleOption(parseInt(btn.dataset.optIdx, 10)));
+  });
+  app.querySelectorAll("[data-jump]").forEach((btn) => {
+    btn.addEventListener("click", () => goToQuestion(parseInt(btn.dataset.jump, 10)));
+  });
+  document.getElementById("nextBtn").addEventListener("click", answerAndAdvance);
+  document.getElementById("prevBtn").addEventListener("click", () => {
+    if (qIndex > 0) goToQuestion(qIndex - 1);
+  });
+}
+
+function saveRowHtml() {
+  if (saveState === "saving") return `<span class="save-muted">${escapeHtml(t(UI.saving))}</span>`;
+  if (saveState === "saved") return `<span class="save-ok">${escapeHtml(t(UI.saved))}</span>`;
+  if (saveState === "error") return `<span class="save-err">${escapeHtml(t(UI.saveError))}</span>`;
+  return "";
+}
+
+function renderSummary(app) {
+  const retryBtn = saveState === "error"
+    ? `<button type="button" class="ghost-btn" id="retryBtn">${escapeHtml(t(UI.retrySave))}</button>`
+    : "";
+
+  if (!IS_POST) {
+    // PRE-TEST: confirmation only. No score, no correct answers, ever.
+    app.innerHTML = `
+      <div class="card">
+        <p class="eyebrow">${escapeHtml(t(UI.thankTitle))}</p>
+        <p class="thankyou-body">${escapeHtml(t(UI.thankBody))}</p>
+        <div class="save-row">${saveRowHtml()}</div>
+        ${retryBtn}
+        <button type="button" class="primary-btn" id="restartBtn">${escapeHtml(t(UI.newAttempt))}</button>
+      </div>`;
+  } else {
+    const score = answers.filter((a) => a && a.isCorrect).length;
+    const pct = Math.round((score / QUESTIONS.length) * 100);
+    const reviewHtml = answers.map((a, i) => {
+      const q = QUESTIONS[i];
+      const opts = t(q.options);
+      const yourAns = a.selected.map((si) => opts[si]).join(" · ");
+      const correctAns = a.correctIdx.map((ci) => opts[ci]).join(" · ");
+      const colour = a.isCorrect ? "var(--correct)" : "var(--wrong)";
+      return `
+        <div class="review-row">
+          <span class="review-dot" style="background:${colour}"></span>
+          <div class="review-body">
+            <div class="review-q">
+              ${escapeHtml(t(q.text))}
+              <span style="color:${colour};font-weight:700">
+                ${a.isCorrect ? escapeHtml(t(UI.correct)) : escapeHtml(t(UI.wrong))}
+              </span>
+            </div>
+            <div class="review-a">${escapeHtml(yourAns)}</div>
+            ${!a.isCorrect ? `<div class="review-correct-ans">${escapeHtml(t(UI.correctAnsIs))} ${escapeHtml(correctAns)}</div>` : ""}
+          </div>
+        </div>`;
+    }).join("");
+
+    app.innerHTML = `
+      <div class="card">
+        <p class="eyebrow">${escapeHtml(t(UI.yourScore))}</p>
+        <div class="score-ring">
+          <div class="score-num">${score}<span class="score-outof">/${QUESTIONS.length}</span></div>
+          <div class="score-pct">${pct}%</div>
+        </div>
+        <div class="save-row">${saveRowHtml()}</div>
+        ${retryBtn}
+        <p class="eyebrow">${escapeHtml(t(UI.reviewTitle))}</p>
+        <div class="review-list">${reviewHtml}</div>
+        <button type="button" class="primary-btn" id="restartBtn">${escapeHtml(t(UI.newAttempt))}</button>
+      </div>`;
+  }
+
+  const retry = document.getElementById("retryBtn");
+  if (retry) retry.addEventListener("click", submit);
+  document.getElementById("restartBtn").addEventListener("click", restart);
+}
+
+render();
+
+</script>
+</body>
+</html>
