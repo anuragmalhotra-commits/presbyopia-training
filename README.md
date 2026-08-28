@@ -113,24 +113,30 @@ Sheet columns:
 
 ```
 Timestamp | State | District | Block | Language | Name | Phone |
-Participant ID | Education | Score | Total | Score % | Q1 … Q15
+Participant ID | Education | Score | Total | Score % |
+Q1 … Q15 | A1 … A15 | Submission ID
 ```
 
-Q1–Q15 hold `1` for correct and `0` for incorrect.
+- **Q1–Q15** — `1` correct, `0` incorrect
+- **A1–A15** — which option was chosen (`a`, `b`, `c`…), comma-separated for
+  multi-select questions. This is what makes distractor analysis possible.
+- **Submission ID** — used to reject duplicate retries
 
-### Known limitation — silent submission failures
+### Offline submissions
 
-The form posts with `mode: "no-cors"` because Apps Script doesn't return CORS
-headers to a browser. The consequence is that the browser cannot read the
-response, so the page shows "recorded" as long as the request didn't throw.
+Every submission is written to the device's local storage before any network
+call is attempted, with a unique `submissionId`. If the send fails the item
+stays queued and is retried on page load, when the browser regains
+connectivity, and every 30 seconds while anything is pending.
 
-If a phone loses signal mid-submission, **the participant sees a success
-message and the row never arrives**. Failures that do reach the script are
-logged to an `Errors` tab, but ones that never arrive leave no trace.
+While something is queued the page says so plainly — it does **not** claim the
+response was recorded — and shows a pending count so a trainer knows before
+everyone leaves the room.
 
-An offline queue (hold unsent submissions on the device, retry when the
-connection returns) is the fix. It has been deferred, not solved. This is the
-largest known data-loss risk in the tool.
+The `submissionId` lets the Apps Script ignore duplicates, so a retry after an
+ambiguous send can never create a second row. If local storage is unavailable
+(private browsing) the form sends directly instead and reports failure
+honestly.
 
 ---
 
@@ -139,5 +145,4 @@ largest known data-loss risk in the tool.
 - [ ] Khasi translations reviewed by a native speaker
 - [ ] Question 2 — confirm whether the correct answer is 35 or 40 years
 - [ ] Block lists for Odisha and Meghalaya programme districts
-- [ ] Offline queue for poor-connectivity submissions
 - [ ] Marathi/Hindi renderings of Odisha district names are unreviewed
