@@ -268,6 +268,160 @@
 
   .field-hint { font-size: 12px; color: var(--sub); margin: 6px 0 0; }
 
+  .progress-track {
+    height: 5px;
+    background: var(--border);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .progress-fill { height: 100%; background: var(--accent); transition: width .3s ease; }
+
+  .q-text {
+    font-size: 19px;
+    line-height: 1.5;
+    margin: 0 0 18px;
+    color: var(--primary);
+    font-weight: 650;
+  }
+
+  .nav-row { display: flex; gap: 10px; margin-top: 14px; }
+
+  .nav-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 14px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--primary);
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+    transition: .15s ease;
+  }
+
+  .nav-btn:hover:not(:disabled) { border-color: var(--accent); background: #FCF9F7; }
+  .nav-btn:disabled { opacity: .4; cursor: default; }
+
+  .nav-btn.primary {
+    flex: 2;
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+  }
+
+  .nav-btn.primary:hover:not(:disabled) { background: var(--primaryDark); border-color: var(--primaryDark); }
+  .nav-btn.primary:disabled { opacity: .5; }
+
+  .nav-arrow { font-size: 17px; line-height: 1; }
+  .nav-label { line-height: 1; }
+
+  .dot-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .dot {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 2px;
+    border: 1.5px solid;
+    background: #fff;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: .12s ease;
+  }
+
+  .dot-num { font-size: 13px; font-weight: 800; }
+  .dot-mark { font-size: 9px; margin-top: 1px; }
+
+  .dot.done { border-color: var(--correct); background: var(--correctBg); color: var(--correct); }
+  .dot.todo { border-color: var(--wrong); background: var(--wrongBg); color: var(--wrong); }
+  .dot.current { box-shadow: 0 0 0 3px rgba(113, 62, 44, .25); border-width: 2px; }
+  .dot:hover { transform: translateY(-1px); }
+
+  .dot-legend {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 10px 0 0;
+    font-size: 11px;
+    color: var(--sub);
+    flex-wrap: wrap;
+  }
+
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+
+  .legend-swatch {
+    width: 11px; height: 11px; border-radius: 2px;
+    border: 1.5px solid; display: inline-block;
+  }
+
+  .legend-swatch.done { border-color: var(--correct); background: var(--correctBg); }
+  .legend-swatch.todo { border-color: var(--wrong); background: var(--wrongBg); }
+  .legend-count { margin-left: auto; font-weight: 700; }
+
+  .score-ring { text-align: center; padding: 10px 0 6px; }
+  .score-num { font-size: 52px; font-weight: 850; color: var(--primary); line-height: 1; }
+  .score-outof { font-size: 22px; font-weight: 600; color: var(--sub); }
+  .score-pct { font-size: 14px; color: var(--sub); margin-top: 4px; }
+
+  .save-row { text-align: center; margin-bottom: 18px; min-height: 18px; }
+  .save-muted { font-size: 12px; color: var(--sub); }
+  .save-ok { font-size: 12px; color: var(--correct); font-weight: 700; }
+  .save-err { font-size: 12px; color: var(--wrong); font-weight: 700; }
+
+  .review-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+  .review-row { display: flex; gap: 10px; align-items: flex-start; }
+
+  .review-dot {
+    width: 8px; height: 8px; border-radius: 999px;
+    margin-top: 6px; flex-shrink: 0;
+  }
+
+  .review-body { flex: 1; }
+  .review-q { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .review-a { font-size: 12px; color: var(--sub); }
+  .review-correct-ans { font-size: 12px; color: var(--correct); margin-top: 2px; font-weight: 700; }
+
+  .thankyou-body { font-size: 17px; line-height: 1.6; margin: 0 0 4px; color: var(--ink-dark); }
+
+  .build-stamp {
+    text-align: center;
+    font-size: 10px;
+    color: var(--sub);
+    opacity: .55;
+    margin: 22px 0 0;
+    letter-spacing: .5px;
+  }
+
+  .queued-box {
+    background: #FDF6E7;
+    border-left: 5px solid #C08A2E;
+    padding: 14px 16px;
+    text-align: left;
+  }
+
+  .queued-title { font-size: 14px; font-weight: 800; color: #8A5F14; margin-bottom: 5px; }
+  .queued-body { font-size: 13px; line-height: 1.55; color: var(--ink-dark); }
+  .queued-count { font-size: 12px; font-weight: 700; color: #8A5F14; margin-top: 8px; }
+
   .mode-banner {
     display: flex;
     align-items: center;
@@ -294,7 +448,8 @@
     .brand-name { font-size: 20px; }
     .brand-right { padding-left: 0; }
     .test-type-badge { padding: 7px 9px; font-size: 9px; }
-    .dot { width: 28px; height: 28px; font-size: 11px; }
+    .dot { width: 34px; height: 34px; }
+    .dot-num { font-size: 12px; }
     .header { padding: 3px 1px 18px; }
     .header-title { font-size: 25px; }
     .card { padding: 22px 18px; }
@@ -334,7 +489,7 @@
 
   <div id="app"></div>
 
-  <p class="build-stamp">v2026-08-26 08:09</p>
+  <p class="build-stamp">v2026-08-28 12:03</p>
 </div>
 
 <script>
@@ -571,6 +726,14 @@ const UI = {
   start: { hi: "परीक्षा शुरू करें", en: "Start test", mr: "चाचणी सुरू करा", or: "ପରୀକ୍ଷା ଆରମ୍ଭ କରନ୍ତୁ", kha: "Sdang ïa ka test" },
   next: { hi: "अगला", en: "Next", mr: "पुढे", or: "ପରବର୍ତ୍ତୀ", kha: "Sha khmat" },
   prev: { hi: "पिछला", en: "Previous", mr: "मागील", or: "ପୂର୍ବବର୍ତ୍ତୀ", kha: "Ba mynshwa" },
+  answered: {
+    hi: "जवाब दिया", en: "Answered", mr: "उत्तर दिले",
+    or: "ଉତ୍ତର ଦିଆଯାଇଛି", kha: "La jubab",
+  },
+  notAnswered: {
+    hi: "बाकी", en: "Not answered", mr: "बाकी",
+    or: "ବାକି ଅଛି", kha: "Ym jubab shuh",
+  },
   unanswered: {
     hi: "इन प्रश्नों का जवाब बाकी है:",
     en: "These questions are still unanswered:",
@@ -603,6 +766,24 @@ const UI = {
     mr: "उत्तर जतन झाले नाही. इंटरनेट तपासून पुन्हा पाठवा.",
     or: "ଉତ୍ତର ସେଭ୍ ହେଲା ନାହିଁ। ଇଣ୍ଟରନେଟ୍ ଯାଞ୍ଚ କରି ପୁଣି ପଠାନ୍ତୁ।",
     kha: "Ym lah buh. Peit ïa ka internet bad phah biang.",
+  },
+  queuedTitle: {
+    hi: "जवाब इस डिवाइस में सुरक्षित है",
+    en: "Saved on this device",
+    mr: "उत्तर या डिव्हाइसवर सुरक्षित आहे",
+    or: "ଉତ୍ତର ଏହି ଡିଭାଇସରେ ସୁରକ୍ଷିତ ଅଛି",
+    kha: "La buh ha kane ka device",
+  },
+  queuedBody: {
+    hi: "इंटरनेट आते ही यह अपने आप भेज दिया जाएगा। तब तक यह पेज बंद न करें।",
+    en: "It will send automatically once there is internet. Please don't close this page until then.",
+    mr: "इंटरनेट आल्यावर हे आपोआप पाठवले जाईल. तोपर्यंत हे पान बंद करू नका.",
+    or: "ଇଣ୍ଟରନେଟ୍ ଆସିଲେ ଏହା ନିଜେ ପଠାଯିବ। ସେ ପର୍ଯ୍ୟନ୍ତ ଏହି ପେଜ୍ ବନ୍ଦ କରନ୍ତୁ ନାହିଁ।",
+    kha: "Yn phah da lade haba don internet. Wat khang ïa kane ka page haduh katta.",
+  },
+  pending: {
+    hi: "भेजने बाकी:", en: "Waiting to send:", mr: "पाठवायचे बाकी:",
+    or: "ପଠାଇବାକୁ ବାକି:", kha: "Dang ap ban phah:",
   },
   retrySave: { hi: "दोबारा भेजें", en: "Send again", mr: "पुन्हा पाठवा", or: "ପୁଣି ପଠାନ୍ତୁ", kha: "Phah biang" },
   thankTitle: { hi: "धन्यवाद!", en: "Thank you!", mr: "धन्यवाद!", or: "ଧନ୍ୟବାଦ!", kha: "Khublei!" },
@@ -717,7 +898,7 @@ const QUESTIONS = [
       hi: "6. दूर की दृष्टि जाँचते समय व्यक्ति को स्नेलन 'E' चार्ट से कितनी दूर बैठाना चाहिए?",
       en: "6. During distance vision screening, how far should the person sit from the Snellen 'E' chart?",
       mr: "६. दूरची दृष्टी तपासताना व्यक्तीला स्नेलन 'E' चार्टपासून किती अंतरावर बसवावे?",
-      or: "୬. ଦୂର ଦୃଷ୍ଟି ଯାଞ୍ଚ କରିବା ସମୟରେ ବ୍ୟକ୍ତିଙ୍କୁ ସ୍ନେଲେନ୍ 'E' ଚାର୍ଟଠାରୁ କେତେ ଦୂରରେ ବସାଇବା ଉଚିତ୍?",
+      or: "୬. ଦୂର ଦୃଷ୍ଟି ନିରୀକ୍ଷି ଦେଖିବା ସମୟରେ ବ୍ୟକ୍ତିଙ୍କୁ ସ୍ନେଲେନ୍ 'E' ଚାର୍ଟଠାରୁ କେତେ ଦୂରରେ ବସାଇବା ଉଚିତ୍?",
       kha: "6. Haba ïatiar ïa ka peit ba jngai, katno ka jingjngai u briew un shong na ka Snellen 'E' chart?",
     },
     options: {
@@ -789,7 +970,7 @@ const QUESTIONS = [
       hi: "10. हर स्क्रीनिंग के बाद काउंसलिंग क्यों ज़रूरी है?",
       en: "10. Why is counselling important after each screening?",
       mr: "१०. प्रत्येक स्क्रीनिंगनंतर काउंसलिंग का आवश्यक आहे?",
-      or: "୧୦. ପ୍ରତ୍ୟେକ ସ୍କ୍ରିନିଂ ପରେ କାଉନସେଲିଂ କାହିଁକି ଜରୁରୀ?",
+      or: "୧୦. ପ୍ରତ୍ୟେକ ସ୍କ୍ରିନିଂ ପରେ କାଉନସେଲିଂ କାହିଁକି ଆବଶ୍ୟକ?",
       kha: "10. Balei ka counselling ka donkam hadien man ka screening?",
     },
     options: {
@@ -825,14 +1006,14 @@ const QUESTIONS = [
       hi: "12. अगर व्यक्ति ने दूर का चश्मा पहना है, तो दूर की दृष्टि जाँच से पहले उसे उतरवा दें — सही या गलत?",
       en: "12. If the person is wearing distance glasses, ask them to remove it before the distance vision test — True or False?",
       mr: "१२. व्यक्तीने दूरचा चष्मा घातला असेल, तर दूरदृष्टी तपासणीपूर्वी तो काढायला सांगावा — बरोबर की चूक?",
-      or: "୧୨. ଯଦି ବ୍ୟକ୍ତି ଦୂର ଚଷମା ପିନ୍ଧିଛନ୍ତି, ଦୂର ଦୃଷ୍ଟି ଯାଞ୍ଚ ପୂର୍ବରୁ ତାହା କାଢ଼ିବାକୁ କହିବା — ଠିକ୍ ନା ଭୁଲ୍?",
+      or: "୧୨. ଯଦି ବ୍ୟକ୍ତି ଦୂର ଚଷମା ପିନ୍ଧିଛନ୍ତି, ଦୂର ଦୃଷ୍ଟି ନିରୀକ୍ଷି ଦେଖିବା ପୂର୍ବରୁ ତାହା କାଢ଼ିବାକୁ କହିବା — ଉଚିତ ନା ଅନୁଚିତ?",
       kha: "12. Lada u briew u la wan chasma ban peit ba jngai, ngi dei ban ong ïa u ban kyrhoh ïa ka mynba ïatiar — Shisha ne Bakla?",
     },
     options: {
       hi: ["(A) सही", "(B) गलत"],
       en: ["(A) True", "(B) False"],
       mr: ["(A) बरोबर", "(B) चूक"],
-      or: ["(A) ଠିକ୍", "(B) ଭୁଲ୍"],
+      or: ["(A) ଉଚିତ", "(B) ଅନୁଚିତ"],
       kha: ["(A) Shisha", "(B) Bakla"],
     },
     correct: [1],
@@ -843,7 +1024,7 @@ const QUESTIONS = [
       hi: "13. एक व्यक्ति की उम्र 22 साल है। जाँच किस डायोप्टर से शुरू करेंगे?",
       en: "13. A person is 22 years old. Which diopter should you start the test with?",
       mr: "१३. एका व्यक्तीचे वय २२ वर्षे आहे. तपासणी कोणत्या डायोप्टरने सुरू कराल?",
-      or: "୧୩. ଜଣେ ବ୍ୟକ୍ତିଙ୍କ ବୟସ ୨୨ ବର୍ଷ। ଯାଞ୍ଚ କେଉଁ ଡାୟୋପ୍ଟରରୁ ଆରମ୍ଭ କରିବେ?",
+      or: "୧୩. ଜଣେ ବ୍ୟକ୍ତିଙ୍କ ବୟସ ୨୨ ବର୍ଷ। କେଉଁ ଡାୟୋପ୍ଟରରୁ ନିରୀକ୍ଷି ଦେଖିବା ଆରମ୍ଭ କରିବେ?",
       kha: "13. U briew u don 22 snem. Na kaei ka diopter phi sdang ban ïatiar?",
     },
     options: {
@@ -861,7 +1042,7 @@ const QUESTIONS = [
       hi: "14. एक व्यक्ति की उम्र 50 साल है। जाँच किस डायोप्टर से शुरू करेंगे?",
       en: "14. A person is 50 years old. Which diopter should you start the test with?",
       mr: "१४. एका व्यक्तीचे वय ५० वर्षे आहे. तपासणी कोणत्या डायोप्टरने सुरू कराल?",
-      or: "୧୪. ଜଣେ ବ୍ୟକ୍ତିଙ୍କ ବୟସ ୫୦ ବର୍ଷ। ଯାଞ୍ଚ କେଉଁ ଡାୟୋପ୍ଟରରୁ ଆରମ୍ଭ କରିବେ?",
+      or: "୧୪. ଜଣେ ବ୍ୟକ୍ତିଙ୍କ ବୟସ ୫୦ ବର୍ଷ। କେଉଁ ଡାୟୋପ୍ଟରରୁ ନିରୀକ୍ଷି ଦେଖିବା ଆରମ୍ଭ କରିବେ?",
       kha: "14. U briew u don 50 snem. Na kaei ka diopter phi sdang ban ïatiar?",
     },
     options: {
@@ -886,12 +1067,138 @@ const QUESTIONS = [
       hi: ["A) उन्हें बता दें कि चश्मे की ज़रूरत नहीं और जाने दें", "B) कम डायोप्टर का चश्मा पहनाकर दोबारा जाँचें", "C) आँखों के अस्पताल में रेफर करें"],
       en: ["A) Tell them they don't need glasses and let them go", "B) Try again with a lower diopter", "C) Refer them to an eye hospital"],
       mr: ["A) चष्म्याची गरज नाही असे सांगून पाठवून द्या", "B) कमी डायोप्टरचा चष्मा देऊन पुन्हा तपासा", "C) नेत्ररुग्णालयात पाठवा"],
-      or: ["A) ଚଷମା ଦରକାର ନାହିଁ ବୋଲି କହି ଛାଡ଼ିଦିଅନ୍ତୁ", "B) କମ୍ ଡାୟୋପ୍ଟର ଚଷମା ଦେଇ ପୁଣି ଯାଞ୍ଚ କରନ୍ତୁ", "C) ଆଖି ଡାକ୍ତରଖାନାକୁ ପଠାନ୍ତୁ"],
+      or: ["A) ଚଷମା ଦରକାର ନାହିଁ ବୋଲି କହି ଛାଡ଼ିଦିଅନ୍ତୁ", "B) କମ୍ ଡାୟୋପ୍ଟର ଚଷମା ଦେଇ ପୁଣି ଯାଞ୍ଚ କରନ୍ତୁ", "C) ଚକ୍ଷୁ ଚିକିତ୍ସାଳୟକୁ ପଠାନ୍ତୁ"],
       kha: ["A) Ong ba um donkam chasma bad ai ba un leit", "B) Ai chasma diopter ba khyndiat bad ïatiar biang", "C) Phah sha ka hospital khmat"],
     },
     correct: [2],
   },
 ];
+
+/* ======================================================================
+   5. OFFLINE SUBMISSION QUEUE
+   ----------------------------------------------------------------------
+   Why this exists: the form posts with mode:"no-cors" because Apps Script
+   does not return CORS headers to a browser. That means the browser can
+   never read the response, so a submission that fails on a weak network
+   would otherwise show "recorded" and vanish.
+
+   How it works:
+     1. Every submission is written to the device's local storage FIRST,
+        with a unique submissionId.
+     2. A send is attempted. If fetch throws (offline, DNS failure,
+        timeout) the item stays queued.
+     3. Queued items are retried on page load, when the browser regains
+        connectivity, and every 30 seconds while anything is pending.
+     4. The participant sees a pending count so a trainer knows before
+        everyone leaves the room.
+
+   The submissionId lets the Apps Script ignore duplicates, so a retry
+   after an ambiguous send can never create a second row.
+   ====================================================================== */
+
+const QUEUE_KEY = "presbyopia_queue_v1";
+const RETRY_MS = 30000;
+let pendingCount = 0;
+let flushing = false;
+let retryTimer = null;
+
+function makeSubmissionId() {
+  const rand = Math.random().toString(36).slice(2, 10);
+  return Date.now().toString(36) + "-" + rand;
+}
+
+function readQueue() {
+  try {
+    const raw = window.localStorage.getItem(QUEUE_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return Array.isArray(arr) ? arr : [];
+  } catch (e) { return []; }
+}
+
+function writeQueue(items) {
+  try {
+    window.localStorage.setItem(QUEUE_KEY, JSON.stringify(items));
+    pendingCount = items.length;
+    return true;
+  } catch (e) {
+    // Storage full or blocked (private browsing). The submission still
+    // gets attempted; it just can't be retried later.
+    console.warn("Could not write queue", e);
+    return false;
+  }
+}
+
+// Returns false if the device refused to store the item (private browsing,
+// storage disabled or full). The caller must then send it directly, or the
+// submission would be dropped without ever being attempted.
+function enqueue(payload) {
+  const items = readQueue();
+  items.push(payload);
+  return writeQueue(items);
+}
+
+function dropFromQueue(id) {
+  writeQueue(readQueue().filter((x) => x.submissionId !== id));
+}
+
+async function sendOne(payload) {
+  // A resolved fetch under no-cors means "the request left the device",
+  // not "the server wrote the row". The submissionId makes an unnecessary
+  // retry harmless, so treating this as success is safe.
+  await fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload),
+  });
+}
+
+async function flushQueue() {
+  if (flushing) return;
+  if (typeof navigator !== "undefined" && navigator.onLine === false) {
+    scheduleRetry();
+    return;
+  }
+
+  flushing = true;
+  const items = readQueue();
+
+  for (const item of items) {
+    try {
+      await sendOne(item);
+      dropFromQueue(item.submissionId);
+      if (stage === "summary") render();
+    } catch (e) {
+      break; // network is down; stop and let the retry timer handle it
+    }
+  }
+
+  flushing = false;
+  pendingCount = readQueue().length;
+
+  // If the submission being shown on screen has now gone through, upgrade
+  // the message from "saved on this device" to "recorded".
+  if (currentSubmissionId &&
+      !readQueue().some((x) => x.submissionId === currentSubmissionId)) {
+    saveState = "saved";
+  }
+
+  if (pendingCount > 0) scheduleRetry();
+  else if (retryTimer) { clearInterval(retryTimer); retryTimer = null; }
+
+  if (stage === "summary") render();
+}
+
+function scheduleRetry() {
+  if (retryTimer) return;
+  retryTimer = setInterval(flushQueue, RETRY_MS);
+}
+
+function initQueue() {
+  pendingCount = readQueue().length;
+  window.addEventListener("online", flushQueue);
+  if (pendingCount > 0) flushQueue();
+}
 
 /* ======================================================================
    4. APP LOGIC
@@ -913,6 +1220,7 @@ let qIndex = 0;
 let selected = [];
 let answers = new Array(QUESTIONS.length).fill(null);
 let saveState = "idle"; // idle -> saving -> saved -> error
+let currentSubmissionId = null;
 let formError = "";
 
 function t(obj) {
@@ -1009,9 +1317,15 @@ function toggleOption(i) {
 function commitCurrent() {
   if (selected.length === 0) return;
   const q = QUESTIONS[qIndex];
+  const sorted = [...selected].sort((a, b) => a - b);
   answers[qIndex] = {
     qid: q.id,
-    selected: [...selected],
+    selected: sorted,
+    // Letter codes (a, b, c…) of what they actually picked. This is what
+    // makes distractor analysis possible: "60% chose +1.50" is actionable,
+    // "60% got it wrong" is not.
+    selectedCode: sorted.map((i) => String.fromCharCode(97 + i)).join(","),
+    selectedText: sorted.map((i) => q.options.en[i]).join(" | "),
     correctIdx: [...q.correct],
     isCorrect: isSelectionCorrect(q, selected),
   };
@@ -1060,30 +1374,32 @@ function buildPayload() {
     total: QUESTIONS.length,
     answers: answers.map((a) => a || null),
     submittedAt: new Date().toISOString(),
+    submissionId: currentSubmissionId,
   };
 }
 
 async function submit() {
   stage = "summary";
   saveState = "saving";
+  currentSubmissionId = makeSubmissionId();
   render();
 
-  // Google Apps Script Web Apps don't send CORS headers back to browser
-  // fetch() calls, so we use mode: "no-cors". The request still reaches
-  // the script and still writes to the Sheet, but the browser blocks us
-  // from reading the response, so "the request didn't throw" is the only
-  // success signal available.
-  try {
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(buildPayload()),
-    });
-    saveState = "saved";
-  } catch (e) {
-    console.error(e);
-    saveState = "error";
+  const payload = buildPayload();
+  const stored = enqueue(payload);   // written to the device before any network call
+
+  if (stored) {
+    await flushQueue();
+    const stillQueued = readQueue().some((x) => x.submissionId === payload.submissionId);
+    saveState = stillQueued ? "queued" : "saved";
+  } else {
+    // The device refused to store the item, so there is nothing to retry
+    // from later. Send it directly and report honestly if that fails.
+    try {
+      await sendOne(payload);
+      saveState = "saved";
+    } catch (e) {
+      saveState = "error";
+    }
   }
   render();
 }
@@ -1093,7 +1409,7 @@ function restart() {
   stateCode = null; stateName = ""; district = ""; districtOther = "";
   block = ""; blockOther = ""; name = ""; phone = ""; education = null;
   qIndex = 0; selected = []; answers = new Array(QUESTIONS.length).fill(null);
-  saveState = "idle"; formError = "";
+  saveState = "idle"; formError = ""; currentSubmissionId = null;
   render();
 }
 
@@ -1336,21 +1652,36 @@ function renderQuiz(app) {
 
       <div class="nav-row">
         <button type="button" class="nav-btn" id="prevBtn" ${qIndex === 0 ? "disabled" : ""}>
-          ${escapeHtml(t(UI.prev))}
+          <span class="nav-arrow" aria-hidden="true">&#8592;</span>
+          <span class="nav-label">${escapeHtml(t(UI.prev))}</span>
         </button>
         <button type="button" class="nav-btn primary" id="nextBtn"
           ${isLast ? (canSubmit ? "" : "disabled") : (selected.length ? "" : "disabled")}>
-          ${isLast ? escapeHtml(t(UI.finish)) : escapeHtml(t(UI.next))}
+          <span class="nav-label">${isLast ? escapeHtml(t(UI.finish)) : escapeHtml(t(UI.next))}</span>
+          ${isLast ? "" : `<span class="nav-arrow" aria-hidden="true">&#8594;</span>`}
         </button>
       </div>
 
       <div class="dot-row" id="dotRow">
         ${QUESTIONS.map((_, i) => {
-          const cls = i === qIndex ? "dot current" : answers[i] ? "dot done" : "dot";
-          return `<button type="button" class="${cls}" data-jump="${i}" aria-label="${escapeHtml(t(UI.question))} ${i + 1}">${i + 1}</button>`;
+          // Colour is backed up by a tick or dash, so the status is still
+          // readable to anyone who can't distinguish green from red.
+          const done = !!answers[i];
+          const cls = "dot " + (done ? "done" : "todo") + (i === qIndex ? " current" : "");
+          const mark = done ? "&#10003;" : "&#8226;";
+          const state = done ? t(UI.answered) : t(UI.notAnswered);
+          return `<button type="button" class="${cls}" data-jump="${i}"
+            aria-label="${escapeHtml(t(UI.question))} ${i + 1} — ${escapeHtml(state)}"
+            title="${escapeHtml(t(UI.question))} ${i + 1} — ${escapeHtml(state)}">
+            <span class="dot-num">${i + 1}</span><span class="dot-mark" aria-hidden="true">${mark}</span>
+          </button>`;
         }).join("")}
       </div>
-      <p class="dot-legend">${answeredCount} / ${QUESTIONS.length}</p>
+      <div class="dot-legend">
+        <span class="legend-item"><span class="legend-swatch done"></span>${escapeHtml(t(UI.answered))}</span>
+        <span class="legend-item"><span class="legend-swatch todo"></span>${escapeHtml(t(UI.notAnswered))}</span>
+        <span class="legend-count">${answeredCount} / ${QUESTIONS.length}</span>
+      </div>
     </div>`;
 
   app.querySelectorAll("[data-opt-idx]").forEach((btn) => {
@@ -1369,11 +1700,18 @@ function saveRowHtml() {
   if (saveState === "saving") return `<span class="save-muted">${escapeHtml(t(UI.saving))}</span>`;
   if (saveState === "saved") return `<span class="save-ok">${escapeHtml(t(UI.saved))}</span>`;
   if (saveState === "error") return `<span class="save-err">${escapeHtml(t(UI.saveError))}</span>`;
+  if (saveState === "queued") {
+    return `<div class="queued-box">
+      <div class="queued-title">${escapeHtml(t(UI.queuedTitle))}</div>
+      <div class="queued-body">${escapeHtml(t(UI.queuedBody))}</div>
+      <div class="queued-count">${escapeHtml(t(UI.pending))} ${pendingCount}</div>
+    </div>`;
+  }
   return "";
 }
 
 function renderSummary(app) {
-  const retryBtn = saveState === "error"
+  const retryBtn = (saveState === "queued" || saveState === "error")
     ? `<button type="button" class="ghost-btn" id="retryBtn">${escapeHtml(t(UI.retrySave))}</button>`
     : "";
 
@@ -1382,7 +1720,7 @@ function renderSummary(app) {
     app.innerHTML = `
       <div class="card">
         <p class="eyebrow">${escapeHtml(t(UI.thankTitle))}</p>
-        <p class="thankyou-body">${escapeHtml(t(UI.thankBody))}</p>
+        ${saveState === "queued" ? "" : `<p class="thankyou-body">${escapeHtml(t(UI.thankBody))}</p>`}
         <div class="save-row">${saveRowHtml()}</div>
         ${retryBtn}
         <button type="button" class="primary-btn" id="restartBtn">${escapeHtml(t(UI.newAttempt))}</button>
@@ -1428,10 +1766,11 @@ function renderSummary(app) {
   }
 
   const retry = document.getElementById("retryBtn");
-  if (retry) retry.addEventListener("click", submit);
+  if (retry) retry.addEventListener("click", () => (saveState === "error" ? submit() : flushQueue()));
   document.getElementById("restartBtn").addEventListener("click", restart);
 }
 
+initQueue();
 render();
 
 </script>
