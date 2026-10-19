@@ -489,7 +489,7 @@
 
   <div id="app"></div>
 
-  <p class="build-stamp">v2026-10-01 10:03</p>
+  <p class="build-stamp">v2026-10-19 08:08</p>
 </div>
 
 <script>
@@ -562,7 +562,9 @@ const BLOCKS = {
     { en: "Arvi", hi: "आर्वी", mr: "आर्वी", or: "ଆର୍ଭି", kha: "Arvi", ta: "ஆர்வி", kn: "ಆರ್ವಿ" },
     { en: "Ashti", hi: "आष्टी", mr: "आष्टी", or: "ଆଷ୍ଟି", kha: "Ashti", ta: "ஆஷ்டி", kn: "ಆಷ್ಟಿ" },
     { en: "Deoli", hi: "देवली", mr: "देवळी", or: "ଦେଓଲି", kha: "Deoli", ta: "தேவளி", kn: "ದೇವಳಿ" },
+    { en: "Hinganghat", hi: "हिंगणघाट", mr: "हिंगणघाट", or: "ହିଙ୍ଗଣଘାଟ", kha: "Hinganghat", ta: "ஹிங்கன்காட்", kn: "ಹಿಂಗಣಘಾಟ್" },
     { en: "Karanja", hi: "कारंजा", mr: "कारंजा", or: "କରଞ୍ଜା", kha: "Karanja", ta: "காரஞ்சா", kn: "ಕಾರಂಜಾ" },
+    { en: "Samudrapur", hi: "समुद्रपूर", mr: "समुद्रपूर", or: "ସମୁଦ୍ରପୁର", kha: "Samudrapur", ta: "சமுத்ரபூர்", kn: "ಸಮುದ್ರಪುರ" },
     { en: "Selu", hi: "सेलू", mr: "सेलू", or: "ସେଲୁ", kha: "Selu", ta: "சேலு", kn: "ಸೇಲು" },
     { en: "Wardha", hi: "वर्धा", mr: "वर्धा", or: "ୱାର୍ଦ୍ଧା", kha: "Wardha", ta: "வர்தா", kn: "ವರ್ಧಾ" },
   ],
@@ -584,6 +586,7 @@ const BLOCKS = {
   "HR|Jhajjar": [
     { en: "Badli", hi: "बादली", mr: "बादली", or: "ବାଦଲି", kha: "Badli", ta: "பாட்லி", kn: "ಬಾದ್ಲಿ" },
     { en: "Bahardurgarh", hi: "बहादुरगढ़", mr: "बहादुरगड", or: "ବାହାଦୁରଗଡ଼", kha: "Bahardurgarh", ta: "பகதூர்கர்", kn: "ಬಹದೂರಗಢ" },
+    { en: "Beri", hi: "बेरी", mr: "बेरी", or: "ବେରି", kha: "Beri", ta: "பேரி", kn: "ಬೇರಿ" },
     { en: "Dighal", hi: "दीघल", mr: "दीघल", or: "ଦୀଘଲ", kha: "Dighal", ta: "தீகல்", kn: "ದೀಘಲ್" },
     { en: "Jhajjar", hi: "झज्जर", mr: "झज्जर", or: "ଝଜ୍ଜର", kha: "Jhajjar", ta: "ஜஜ்ஜர்", kn: "ಝಜ್ಜರ್" },
     { en: "Machhrauli", hi: "माछरौली", mr: "माछरौली", or: "ମାଛରୌଲି", kha: "Machhrauli", ta: "மச்சரௌலி", kn: "ಮಾಚ್ರೌಲಿ" },
@@ -751,6 +754,20 @@ const UI = {
     hi: "भेजने बाकी:", en: "Waiting to send:", mr: "पाठवायचे बाकी:",
     or: "ପଠାଇବାକୁ ବାକି:", kha: "Dang ap ban phah:", ta: "அனுப்ப வேண்டியவை:", kn: "ಕಳುಹಿಸಬೇಕಾದವು:",},
   retrySave: { hi: "दोबारा भेजें", en: "Send again", mr: "पुन्हा पाठवा", or: "ପୁଣି ପଠାନ୍ତୁ", kha: "Phah biang", ta: "மீண்டும் அனுப்பவும்", kn: "ಮತ್ತೆ ಕಳುಹಿಸಿ",},
+  dontKnow: {
+    hi: "मुझे नहीं पता", en: "I don't know", mr: "मला माहीत नाही",
+    or: "ମୋତେ ଜଣା ନାହିଁ", kha: "Ym tip", ta: "எனக்குத் தெரியாது", kn: "ನನಗೆ ಗೊತ್ತಿಲ್ಲ",},
+  alreadyDone: {
+    hi: "इस मोबाइल नंबर से पोस्ट-टेस्ट पहले ही भरा जा चुका है। हर व्यक्ति केवल एक बार भर सकता है।",
+    en: "A post-test has already been submitted with this mobile number. Each person may submit only once.",
+    mr: "या मोबाइल नंबरवरून पोस्ट-टेस्ट आधीच भरली गेली आहे. प्रत्येक व्यक्ती फक्त एकदाच भरू शकते.",
+    or: "ଏହି ମୋବାଇଲ୍ ନମ୍ବରରୁ ପୋଷ୍ଟ-ଟେଷ୍ଟ ପୂର୍ବରୁ ଦାଖଲ ହୋଇସାରିଛି। ପ୍ରତ୍ୟେକ ବ୍ୟକ୍ତି କେବଳ ଥରେ ଦାଖଲ କରିପାରିବେ।",
+    kha: "La dep phah ïa ka post-test da kane ka nombor mobile. Man la u briew u lah tang shi sin.",
+    ta: "இந்த எண்ணிலிருந்து பிந்தைய தேர்வு ஏற்கனவே சமர்ப்பிக்கப்பட்டுள்ளது. ஒருவர் ஒருமுறை மட்டுமே சமர்ப்பிக்கலாம்.",
+    kn: "ಈ ಮೊಬೈಲ್ ಸಂಖ್ಯೆಯಿಂದ ಪೋಸ್ಟ್-ಟೆಸ್ಟ್ ಈಗಾಗಲೇ ಸಲ್ಲಿಸಲಾಗಿದೆ. ಪ್ರತಿಯೊಬ್ಬರೂ ಒಮ್ಮೆ ಮಾತ್ರ ಸಲ್ಲಿಸಬಹುದು.",},
+  checking: {
+    hi: "जाँच हो रही है…", en: "Checking…", mr: "तपासत आहे…",
+    or: "ଯାଞ୍ଚ ହେଉଛି…", kha: "Dang peit…", ta: "சரிபார்க்கப்படுகிறது…", kn: "ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ…",},
   thankTitle: { hi: "धन्यवाद!", en: "Thank you!", mr: "धन्यवाद!", or: "ଧନ୍ୟବାଦ!", kha: "Khublei!", ta: "நன்றி!", kn: "ಧನ್ಯವಾದಗಳು!",},
   thankBody: {
     hi: "आपका प्री-टेस्ट जमा हो गया है। अब प्रशिक्षण के लिए आगे बढ़ें।",
@@ -1307,6 +1324,66 @@ function participantId() {
   return normalisePhone(phone);
 }
 
+/* ---------- "I don't know" option (PRE-TEST ONLY) ----------
+   Appended to the end of every question's option list, so the stored
+   indices of the real options — and therefore the answer key — are
+   unchanged. Q8 already offers a "don't know" choice of its own, so it
+   is skipped to avoid showing two.                                     */
+
+const DONT_KNOW_SKIP = ["q8"];
+
+function optionsFor(q, forceLang) {
+  const L = forceLang || lang;
+  const base = q.options[L] || q.options.hi;
+  if (IS_POST || DONT_KNOW_SKIP.indexOf(q.id) !== -1) return base;
+  return base.concat([UI.dontKnow[L] || UI.dontKnow.hi]);
+}
+
+function dontKnowIndex(q) {
+  if (IS_POST || DONT_KNOW_SKIP.indexOf(q.id) !== -1) return -1;
+  return (q.options.en || []).length;
+}
+
+/* ---------- One post-test per person ----------
+   Checked two ways. The device remembers what it has already sent, which
+   works offline; and the Apps Script is asked whether this number is
+   already in the sheet, which catches the same person on another phone.
+   If the check cannot run (no network), the person is let through and the
+   Apps Script rejects the duplicate on arrival — better than blocking a
+   genuine participant because the signal dropped.                       */
+
+const DONE_KEY = "presbyopia_done_post_v1";
+
+function markSubmittedLocally(pid) {
+  try {
+    const raw = window.localStorage.getItem(DONE_KEY);
+    const list = raw ? JSON.parse(raw) : [];
+    if (list.indexOf(pid) === -1) list.push(pid);
+    window.localStorage.setItem(DONE_KEY, JSON.stringify(list));
+  } catch (e) { /* storage unavailable — the server check still applies */ }
+}
+
+function submittedOnThisDevice(pid) {
+  try {
+    const raw = window.localStorage.getItem(DONE_KEY);
+    return raw ? JSON.parse(raw).indexOf(pid) !== -1 : false;
+  } catch (e) { return false; }
+}
+
+async function alreadySubmitted(pid) {
+  if (submittedOnThisDevice(pid)) return true;
+  const sep = GOOGLE_SCRIPT_URL.indexOf("?") === -1 ? "?" : "&";
+  try {
+    const res = await fetch(
+      GOOGLE_SCRIPT_URL + sep + "action=exists&pid=" + encodeURIComponent(pid));
+    const json = await res.json();
+    return json && json.ok === true && json.exists === true;
+  } catch (e) {
+    return false;   // cannot reach the server: let them through
+  }
+}
+
+
 
 
 /* ---------- Actions ---------- */
@@ -1330,9 +1407,16 @@ function setLang(code) {
 
 function toggleOption(i) {
   const q = QUESTIONS[qIndex];
-  selected = q.type === "single"
-    ? [i]
-    : selected.includes(i) ? selected.filter((x) => x !== i) : [...selected, i];
+  const dk = dontKnowIndex(q);
+  if (q.type === "single") {
+    selected = [i];
+  } else if (i === dk) {
+    // "I don't know" cannot be combined with a real answer
+    selected = selected.includes(i) ? [] : [i];
+  } else {
+    const without = selected.filter((x) => x !== dk);
+    selected = without.includes(i) ? without.filter((x) => x !== i) : [...without, i];
+  }
   render();
 }
 
@@ -1349,7 +1433,7 @@ function commitCurrent() {
     // makes distractor analysis possible: "60% chose +1.50" is actionable,
     // "60% got it wrong" is not.
     selectedCode: sorted.map((i) => String.fromCharCode(97 + i)).join(","),
-    selectedText: sorted.map((i) => q.options.en[i]).join(" | "),
+    selectedText: sorted.map((i) => optionsFor(q, "en")[i]).join(" | "),
     correctIdx: [...q.correct],
     isCorrect: isSelectionCorrect(q, selected),
   };
@@ -1415,12 +1499,14 @@ async function submit() {
     await flushQueue();
     const stillQueued = readQueue().some((x) => x.submissionId === payload.submissionId);
     saveState = stillQueued ? "queued" : "saved";
+    if (IS_POST) markSubmittedLocally(payload.participantId);
   } else {
     // The device refused to store the item, so there is nothing to retry
     // from later. Send it directly and report honestly if that fails.
     try {
       await sendOne(payload);
       saveState = "saved";
+      if (IS_POST) markSubmittedLocally(payload.participantId);
     } catch (e) {
       saveState = "error";
     }
@@ -1626,7 +1712,7 @@ function renderIntake(app) {
     formError = "";
     render();
   });
-  document.getElementById("startBtn").addEventListener("click", () => {
+  document.getElementById("startBtn").addEventListener("click", async () => {
     if (!name.trim() || education === null) {
       formError = t(UI.needName);
       render();
@@ -1637,6 +1723,20 @@ function renderIntake(app) {
       render();
       return;
     }
+
+    // One post-test per person. The pre-test is unrestricted.
+    if (IS_POST) {
+      const btn = document.getElementById("startBtn");
+      btn.disabled = true;
+      btn.textContent = t(UI.checking);
+      const seen = await alreadySubmitted(participantId());
+      if (seen) {
+        formError = t(UI.alreadyDone);
+        render();
+        return;
+      }
+    }
+
     formError = "";
     stage = "quiz";
     render();
@@ -1645,7 +1745,7 @@ function renderIntake(app) {
 
 function renderQuiz(app) {
   const q = QUESTIONS[qIndex];
-  const options = t(q.options);
+  const options = optionsFor(q);
   const pct = Math.round((qIndex / QUESTIONS.length) * 100);
   const answeredCount = answers.filter(Boolean).length;
   const isLast = qIndex + 1 === QUESTIONS.length;
@@ -1754,7 +1854,7 @@ function renderSummary(app) {
     const pct = Math.round((score / QUESTIONS.length) * 100);
     const reviewHtml = answers.map((a, i) => {
       const q = QUESTIONS[i];
-      const opts = t(q.options);
+      const opts = optionsFor(q);
       const yourAns = a.selected.map((si) => opts[si]).join(" · ");
       const correctAns = a.correctIdx.map((ci) => opts[ci]).join(" · ");
       const colour = a.isCorrect ? "var(--correct)" : "var(--wrong)";
