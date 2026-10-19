@@ -285,6 +285,22 @@
     font-weight: 650;
   }
 
+  .choice-btn:disabled { cursor: default; opacity: .75; }
+  .choice-btn:disabled:hover { border-color: var(--border); background: #fff; }
+  .choice-btn.active:disabled { opacity: 1; background: #F3EAE6; }
+
+  .locked-note {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--sub);
+    background: #FAF6F4;
+    border-left: 3px solid var(--accent);
+    padding: 9px 11px;
+    margin: 0 0 12px;
+  }
+
   .nav-row { display: flex; gap: 10px; margin-top: 14px; }
 
   .nav-btn {
@@ -489,7 +505,7 @@
 
   <div id="app"></div>
 
-  <p class="build-stamp">v2026-10-19 08:08</p>
+  <p class="build-stamp">v2026-10-19 08:41</p>
 </div>
 
 <script>
@@ -754,6 +770,14 @@ const UI = {
     hi: "भेजने बाकी:", en: "Waiting to send:", mr: "पाठवायचे बाकी:",
     or: "ପଠାଇବାକୁ ବାକି:", kha: "Dang ap ban phah:", ta: "அனுப்ப வேண்டியவை:", kn: "ಕಳುಹಿಸಬೇಕಾದವು:",},
   retrySave: { hi: "दोबारा भेजें", en: "Send again", mr: "पुन्हा पाठवा", or: "ପୁଣି ପଠାନ୍ତୁ", kha: "Phah biang", ta: "மீண்டும் அனுப்பவும்", kn: "ಮತ್ತೆ ಕಳುಹಿಸಿ",},
+  answerLocked: {
+    hi: "यह जवाब दर्ज हो चुका है, अब बदला नहीं जा सकता",
+    en: "This answer is saved and can no longer be changed",
+    mr: "हे उत्तर नोंदवले गेले आहे, आता बदलता येणार नाही",
+    or: "ଏହି ଉତ୍ତର ଦାଖଲ ହୋଇସାରିଛି, ଏବେ ବଦଳାଯାଇପାରିବ ନାହିଁ",
+    kha: "La buh ïa kane ka jubab, ym lah pynlai shuh",
+    ta: "இந்தப் பதில் பதிவாகிவிட்டது, இனி மாற்ற முடியாது",
+    kn: "ಈ ಉತ್ತರ ದಾಖಲಾಗಿದೆ, ಈಗ ಬದಲಾಯಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ",},
   dontKnow: {
     hi: "मुझे नहीं पता", en: "I don't know", mr: "मला माहीत नाही",
     or: "ମୋତେ ଜଣା ନାହିଁ", kha: "Ym tip", ta: "எனக்குத் தெரியாது", kn: "ನನಗೆ ಗೊತ್ತಿಲ್ಲ",},
@@ -1332,11 +1356,30 @@ function participantId() {
 
 const DONT_KNOW_SKIP = ["q8"];
 
+// Questions label their options in different styles — "A)", "(a)", "(A)" —
+// and one question has no labels at all. The added option copies whichever
+// style that question already uses, so it doesn't look bolted on.
+function dontKnowLabel(q) {
+  const first = (q.options.en || [])[0] || "";
+  const n = (q.options.en || []).length;
+
+  const bracketed = first.match(/^\(([A-Za-z])\)/);
+  const plain = first.match(/^([A-Za-z])\)/);
+  const m = bracketed || plain;
+  if (!m) return "";                       // this question has no labels
+
+  const isUpper = m[1] === m[1].toUpperCase();
+  const base = isUpper ? 65 : 97;          // "A" or "a"
+  const letter = String.fromCharCode(base + n);
+  return bracketed ? "(" + letter + ") " : letter + ") ";
+}
+
 function optionsFor(q, forceLang) {
   const L = forceLang || lang;
   const base = q.options[L] || q.options.hi;
   if (IS_POST || DONT_KNOW_SKIP.indexOf(q.id) !== -1) return base;
-  return base.concat([UI.dontKnow[L] || UI.dontKnow.hi]);
+  const text = UI.dontKnow[L] || UI.dontKnow.hi;
+  return base.concat([dontKnowLabel(q) + text]);
 }
 
 function dontKnowIndex(q) {
@@ -1406,6 +1449,7 @@ function setLang(code) {
 }
 
 function toggleOption(i) {
+  if (IS_POST && answers[qIndex]) return;   // already final
   const q = QUESTIONS[qIndex];
   const dk = dontKnowIndex(q);
   if (q.type === "single") {
@@ -1750,6 +1794,11 @@ function renderQuiz(app) {
   const answeredCount = answers.filter(Boolean).length;
   const isLast = qIndex + 1 === QUESTIONS.length;
 
+  // In the post-test an answer is final once given: you can navigate back
+  // and see what you chose, but not change it. The pre-test stays editable
+  // so a mistap on a small screen can be corrected.
+  const locked = IS_POST && !!answers[qIndex];
+
   // On the last question, Submit stays disabled until every question has an
   // answer — otherwise someone who jumped back and forth could submit a
   // half-filled test without noticing.
@@ -1766,9 +1815,11 @@ function renderQuiz(app) {
       ${q.type === "multi" ? `<p class="hint">${escapeHtml(t(UI.multiHint))}</p>` : ""}
       <div class="opt-col" id="optCol">
         ${options.map((opt, i) =>
-          `<button type="button" class="choice-btn ${selected.includes(i) ? "active" : ""}" data-opt-idx="${i}">${escapeHtml(opt)}</button>`
+          `<button type="button" class="choice-btn ${selected.includes(i) ? "active" : ""}" data-opt-idx="${i}" ${locked ? "disabled" : ""}>${escapeHtml(opt)}</button>`
         ).join("")}
       </div>
+
+      ${locked ? `<p class="locked-note"><span aria-hidden="true">&#128274;</span>${escapeHtml(t(UI.answerLocked))}</p>` : ""}
 
       ${isLast && unanswered.length
         ? `<p class="form-error">${escapeHtml(t(UI.unanswered))} ${unanswered.join(", ")}</p>`
