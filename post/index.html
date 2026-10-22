@@ -489,7 +489,7 @@
 
   <div id="app"></div>
 
-  <p class="build-stamp">v2026-10-19 08:08</p>
+  <p class="build-stamp">v2026-10-19 08:56</p>
 </div>
 
 <script>
@@ -522,6 +522,7 @@ const STATES = [
   { code: "OD", label: { en: "Odisha", hi: "ओडिशा", mr: "ओडिशा", or: "ଓଡ଼ିଶା", kha: "Odisha", ta: "ஒடிசா", kn: "ಒಡಿಶಾ" }, lang: "or" },
   { code: "ML", label: { en: "Meghalaya", hi: "मेघालय", mr: "मेघालय", or: "ମେଘାଳୟ", kha: "Meghalaya", ta: "மேகாலயா", kn: "ಮೇಘಾಲಯ" }, lang: "kha" },
   { code: "HR", label: { en: "Haryana", hi: "हरियाणा", mr: "हरियाणा", or: "ହରିୟାଣା", kha: "Haryana", ta: "ஹரியானா", kn: "ಹರಿಯಾಣ" }, lang: "hi" },
+  { code: "MP", label: { en: "Madhya Pradesh", hi: "मध्य प्रदेश", mr: "मध्य प्रदेश", or: "ମଧ୍ୟପ୍ରଦେଶ", kha: "Madhya Pradesh", ta: "மத்திய பிரதேசம்", kn: "ಮಧ್ಯಪ್ರದೇಶ" }, lang: "hi" },
 ];
 
 /* Every district and block carries a label in each language.
@@ -535,6 +536,9 @@ const DISTRICTS = {
   ],
   HR: [
     { en: "Jhajjar", hi: "झज्जर", mr: "झज्जर", or: "ଝଜ୍ଜର", kha: "Jhajjar", ta: "ஜஜ்ஜர்", kn: "ಝಜ್ಜರ್" },
+  ],
+  MP: [
+    { en: "Bhopal", hi: "भोपाल", mr: "भोपाळ", or: "ଭୋପାଳ", kha: "Bhopal", ta: "போபால்", kn: "ಭೋಪಾಲ್" },
   ],
   OD: [
     { en: "Kendujhar", or: "କେନ୍ଦୁଝର", hi: "केंदुझर", mr: "केंदुझर", ta: "கேந்துஜர்", kn: "ಕೇಂದುಝರ್" },
@@ -582,6 +586,10 @@ const BLOCKS = {
     { en: "Patana", or: "ପାଟଣା", hi: "पाटणा", mr: "पाटणा", ta: "பாட்டணா", kn: "ಪಾಟಣಾ" },
     { en: "Saharapada", or: "ସାହାରପଡ଼ା", hi: "साहरपड़ा", mr: "साहरपडा", ta: "சஹரபடா", kn: "ಸಾಹರಪಡಾ" },
     { en: "Telkoi", or: "ତେଲକୋଇ", hi: "तेलकोई", mr: "तेलकोई", ta: "தெல்கோய்", kn: "ತೆಲ್ಕೋಯಿ" },
+  ],
+  "MP|Bhopal": [
+    { en: "Berasia", hi: "बैरसिया", mr: "बैरसिया", or: "ବୈରସିଆ", kha: "Berasia", ta: "பைரசியா", kn: "ಬೈರಸಿಯಾ" },
+    { en: "Phanda", hi: "फंदा", mr: "फंदा", or: "ଫନ୍ଦା", kha: "Phanda", ta: "பந்தா", kn: "ಫಂದಾ" },
   ],
   "HR|Jhajjar": [
     { en: "Badli", hi: "बादली", mr: "बादली", or: "ବାଦଲି", kha: "Badli", ta: "பாட்லி", kn: "ಬಾದ್ಲಿ" },
@@ -1332,11 +1340,30 @@ function participantId() {
 
 const DONT_KNOW_SKIP = ["q8"];
 
+// Questions label their options in different styles — "A)", "(a)", "(A)" —
+// and one question has no labels at all. The added option copies whichever
+// style that question already uses, so it doesn't look bolted on.
+function dontKnowLabel(q) {
+  const first = (q.options.en || [])[0] || "";
+  const n = (q.options.en || []).length;
+
+  const bracketed = first.match(/^\(([A-Za-z])\)/);
+  const plain = first.match(/^([A-Za-z])\)/);
+  const m = bracketed || plain;
+  if (!m) return "";                       // this question has no labels
+
+  const isUpper = m[1] === m[1].toUpperCase();
+  const base = isUpper ? 65 : 97;          // "A" or "a"
+  const letter = String.fromCharCode(base + n);
+  return bracketed ? "(" + letter + ") " : letter + ") ";
+}
+
 function optionsFor(q, forceLang) {
   const L = forceLang || lang;
   const base = q.options[L] || q.options.hi;
   if (IS_POST || DONT_KNOW_SKIP.indexOf(q.id) !== -1) return base;
-  return base.concat([UI.dontKnow[L] || UI.dontKnow.hi]);
+  const text = UI.dontKnow[L] || UI.dontKnow.hi;
+  return base.concat([dontKnowLabel(q) + text]);
 }
 
 function dontKnowIndex(q) {
@@ -1407,6 +1434,7 @@ function setLang(code) {
 
 function toggleOption(i) {
   const q = QUESTIONS[qIndex];
+
   const dk = dontKnowIndex(q);
   if (q.type === "single") {
     selected = [i];
